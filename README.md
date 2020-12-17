@@ -21,3 +21,6 @@ $ yarn ios
 $ yarn android
 
 ```
+## Current Screenshots
+
+<img height="465" width="240" src="./screen-shots/main.png"/> <img height="465" width="240" src="./screen-shots/active-mentorships.png"/> <img height="465" width="240" src="./screen-shots/mentors.png"/> <img height="465" width="240" src="./screen-shots/profile.png"/>
