@@ -21,6 +21,22 @@ $ yarn ios
 $ yarn android
 
 ```
+## API
+
+**Get all persons by:**
+
+```bash
+curl https://findmentor.network/persons.json
+```
+
+**Get all active mentorships by:**
+
+```bash
+curl https://findmentor.network/activeMentorships.json
+```
+
+
+
 ## Current Screenshots
 
 <img height="465" width="240" src="./screen-shots/main.png"/> <img height="465" width="240" src="./screen-shots/active-mentorships.png"/> <img height="465" width="240" src="./screen-shots/mentors.png"/> <img height="465" width="240" src="./screen-shots/profile.png"/>
