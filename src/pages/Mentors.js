@@ -18,7 +18,6 @@ const Mentors = (props) => {
   const [person, setPerson] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
-  const [mentors, setMentors] = useState([]);
 
   useEffect(() => {
     getPersons();
@@ -26,13 +25,12 @@ const Mentors = (props) => {
 
   const getPersons = async () => {
     let response = await axios.get('https://findmentor.network/persons.json');
-    const newArray = [];
-    setPerson(response.data);
+    setPerson(response.data.filter((x) => x.mentor !== 'Mentee'));
     setLoading(false);
   };
 
   const renderItem = ({item}) => (
-    <Card data={item} navigation={props.navigation} />
+    <Card data={item} navigation={props.navigation} listType="mentor" />
   );
 
   const filteredData = text

@@ -8,25 +8,50 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {Avatar, Accessory} from 'react-native-elements';
+import {Avatar} from 'react-native-elements';
 import {Github, Linkedin, Twitter} from '../SVGR-Components';
 
-const Card = (props) => {
-  const twitterUrl = props.data.twitter_handle;
-  const githubUrl = props.data.github;
-  const linkedinUrl = props.data.linkedin;
+const Card = ({navigation, data, listType = 'mentor'}) => {
+  const twitterUrl = data.twitter_handle;
+  const githubUrl = data.github;
+  const linkedinUrl = data.linkedin;
+
+  const getBorderTopColor = () => {
+    const mentorColor = '#17aa90';
+    const menteeColor = '#2f6998';
+    const bothColor = '#ffc400';
+
+    if (listType === 'mentor') {
+      return mentorColor;
+    }
+    if (listType === 'mentee') {
+      return menteeColor;
+    }
+    switch (data.mentor) {
+      case 'Mentor':
+        return mentorColor;
+      case 'Mentee':
+        return menteeColor;
+      default:
+        return bothColor;
+    }
+  };
+
   return (
     <SafeAreaView>
       <TouchableOpacity
         onPress={() =>
-          props.navigation.navigate('MMDetail', {
-            name: props.data.name,
-            interests: props.data.interests,
-            goals: props.data.goals,
-            avatar: props.data.avatar,
+          navigation.navigate('MMDetail', {
+            name: data.name,
+            interests: data.interests,
+            goals: data.goals,
+            avatar: data.avatar,
           })
         }
-        style={styles.cardView}>
+        style={{
+          ...styles.cardView,
+          borderTopColor: getBorderTopColor(),
+        }}>
         <View style={styles.iconView}>
           <TouchableOpacity
             style={styles.oneIconView}
@@ -47,19 +72,30 @@ const Card = (props) => {
         <Avatar
           rounded
           source={{
-            uri: props.data.avatar,
+            uri: data.avatar,
           }}
           size="large"
         />
         <View style={styles.nameView}>
-          <Text style={styles.nameStyle}>{props.data.name}</Text>
+          <Text
+            numberOfLines={2}
+            ellipsizeMode="tail"
+            style={{...styles.nameStyle, color: getBorderTopColor()}}>
+            {data.name}
+          </Text>
         </View>
         <View style={styles.goalsView}>
-          <Text style={styles.goalsText}>{props.data.displayInterests}</Text>
+          <Text numberOfLines={3} ellipsizeMode="tail" style={styles.goalsText}>
+            {data.displayInterests}
+          </Text>
         </View>
-        <View style={styles.goalsView}>
-          <Text style={styles.goalsText}>{props.data.mentor === "İkisi de" ? "Mentor & Mentee" : props.data.mentor}</Text>
-        </View>
+        {listType === 'both' && (
+          <View style={styles.goalsView}>
+            <Text style={styles.goalsText}>
+              {data.mentor === 'İkisi de' ? 'Mentor & Mentee' : data.mentor}
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -74,9 +110,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 2.2,
     height: 300,
     alignItems: 'center',
-    borderTopWidth: 7,
-    borderTopColor: '#18a990',
-    borderRadius: 13,
+    borderTopWidth: 6,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -93,16 +127,17 @@ const styles = StyleSheet.create({
   },
   nameView: {
     marginVertical: 10,
+    height: 20,
   },
   nameStyle: {
     fontSize: 17,
-    color: '#18a990',
     fontWeight: '700',
   },
   goalsView: {
     marginHorizontal: 7,
     marginVertical: 15,
     alignSelf: 'center',
+    height: 40,
   },
   goalsText: {
     color: '#898989',
