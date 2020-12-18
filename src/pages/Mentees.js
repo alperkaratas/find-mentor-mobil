@@ -44,7 +44,7 @@ const Mentees = (props) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>Mentees</Text>
+        <Text style={styles.headerText}>👉Mentees</Text>
         <Divider style={{backgroundColor: '#454646', height: 3}} />
       </View>
       <View style={styles.searchView}>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 27,
     fontWeight: 'bold',
-    color: '#18a990',
+    color: '#2c7cfe',
   },
   textInput: {
     textAlign: 'center',

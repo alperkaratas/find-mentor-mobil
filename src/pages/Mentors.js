@@ -44,7 +44,7 @@ const Mentors = (props) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>Mentors</Text>
+        <Text style={styles.headerText}>👉Mentors</Text>
         <Divider style={{backgroundColor: '#454646', height: 3}} />
       </View>
       <View style={styles.searchView}>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 27,
     fontWeight: 'bold',
-    color: '#18a990',
+    color: '#17aa90',
   },
   textInput: {
     textAlign: 'center',
