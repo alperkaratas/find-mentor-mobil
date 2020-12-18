@@ -24,7 +24,6 @@ const ActiveMentorships = () => {
       'https://findmentor.network/activeMentorships.json',
     );
     setMentorships(response.data.mentorships);
-    console.log(response.data.mentorships);
   };
 
   const renderItem = ({item}) => <RenderItem data={item} />;
