@@ -48,7 +48,7 @@ const Mentees = (props) => {
         <Divider style={{backgroundColor: '#454646', height: 3}} />
       </View>
       <View style={styles.searchView}>
-        <Search width={27} height={27} />
+        <Search fill={'#2c7cfe'} width={27} height={27} />
         <SearchBar
           onSearch={(text) => setText(text)}
           value={text}

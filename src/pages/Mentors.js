@@ -48,7 +48,7 @@ const Mentors = (props) => {
         <Divider style={{backgroundColor: '#454646', height: 3}} />
       </View>
       <View style={styles.searchView}>
-        <Search width={27} height={27} />
+        <Search fill={'#17aa90'} width={27} height={27} />
         <SearchBar
           onSearch={(text) => setText(text)}
           value={text}
