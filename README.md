@@ -1,5 +1,5 @@
 
-<a href="https://findmentor.network/"><img height="60" width="60" src="https://i.ibb.co/CnXwRT3/logo.png" alt="logo" border="0"></a>
+<a target="_blank" href="https://findmentor.network/"><img height="60" width="60" src="https://i.ibb.co/CnXwRT3/logo.png" alt="logo" border="0"></a>
 #
 # Find Mentor Mobile App
 
