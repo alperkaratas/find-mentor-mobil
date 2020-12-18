@@ -7,14 +7,13 @@ import {
   TouchableOpacity,
   View,
   Linking,
-  Image,
   ScrollView,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
-import {Logo} from '../components/SVGR-Components';
+import {JoinNowAddUser, Logo, Github} from '../components/SVGR-Components';
 
 const WelcomePage = (props) => {
-  const githubFindMentor = 'https://github.com/cagataycali/find-mentor';
+  const githubFindMentor = 'https://github.com/alperkaratas/find-mentor-mobil';
   const joinNow =
     'https://docs.google.com/forms/d/e/1FAIpQLSc3uWpEeBUCXMoGAJ5qm31p9URBppxXT5L4RJFrTOJee9TFjQ/viewform';
   const discorUrl =
@@ -29,7 +28,12 @@ const WelcomePage = (props) => {
 
         <TouchableOpacity
           onPress={() => Linking.openURL(githubFindMentor)}
-          style={{marginVertical: 20}}>
+          style={{
+            marginVertical: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Github width={24} height={24} />
           <Text style={styles.text1Style}> Feel free to contribute! </Text>
         </TouchableOpacity>
         <View style={{marginHorizontal: 19}}>
@@ -53,6 +57,7 @@ const WelcomePage = (props) => {
           <TouchableOpacity
             onPress={() => Linking.openURL(joinNow)}
             style={styles.joinButton}>
+            <JoinNowAddUser width={25} height={25} fill={'white'} />
             <Text style={styles.buttonText}>Join Now</Text>
           </TouchableOpacity>
           <TouchableOpacity

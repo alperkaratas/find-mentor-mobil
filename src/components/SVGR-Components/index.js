@@ -8,3 +8,4 @@ export * from './Twitter';
 export * from './BackButton';
 export * from './Search';
 export * from './Logo';
+export * from './JoinNowAddUser';
