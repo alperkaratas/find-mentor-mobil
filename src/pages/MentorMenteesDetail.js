@@ -38,8 +38,8 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
         />
       </View>
 
-      <Text>Interests: {interests}</Text>
-      <Text>Goals: {goals}</Text>
+      <Text style={{color: 'white'}}>Interests: {interests}</Text>
+      <Text style={{color: 'white'}}>Goals: {goals}</Text>
     </SafeAreaView>
   );
 };
