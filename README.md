@@ -17,7 +17,6 @@ The project's aim is to collect feedback from people.
 ```bash
 # install dependencies
 $ yarn install
-$ npm install
 
 # serve with hot reload at localhost:3000
 $ yarn ios
