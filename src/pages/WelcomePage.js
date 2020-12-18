@@ -38,7 +38,14 @@ const WelcomePage = (props) => {
             GitHub actions, then generate this beauty.
           </Text>
         </View>
-
+        <View style={styles.discordView}>
+          <WebView
+            style={styles.webView}
+            source={{
+              uri: discorUrl,
+            }}
+          />
+        </View>
         <View style={styles.discordTextView}>
           <Text>You can join this channel to communicate with each other.</Text>
         </View>
