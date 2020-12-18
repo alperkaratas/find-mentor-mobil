@@ -41,6 +41,6 @@ https://raw.githubusercontent.com/cagataycali/find-mentor/eb039271273f2fd431ee0a
 
 ## Current Screenshots
 
-<img height="465" width="240" src="./screen-shots/main.png"/> <img height="465" width="240" src="./screen-shots/active-mentorships.png"/> <img height="465" width="240" src="./screen-shots/mentors.png"/> <img height="465" width="240" src="./screen-shots/profile.png"/>
+<img height="465" width="240" src="./screen-shots/main.png"/> <img height="465" width="240" src="./screen-shots/active-mentorships.png"/> <img height="465" width="240" src="./screen-shots/mentors.png"/> <img height="465" width="240" src="./screen-shots/profile.png"/> <img height="465" width="240" src="./screen-shots/how-it-works.png"/>
 #
 *For detailed explanation on how things work, check out [React Native](https://reactnative.dev/) docs.*
