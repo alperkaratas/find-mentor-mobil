@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
+    borderRadius: 5,
   },
   iconView: {
     flexDirection: 'row',
