@@ -11,6 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
+import axios from 'axios';
 import {Logo} from '../components/SVGR-Components';
 
 const WelcomePage = (props) => {

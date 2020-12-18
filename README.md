@@ -24,6 +24,11 @@ $ yarn ios
 $ yarn android
 
 ```
+## ESLint Automatically Fix
+```
+$ yarn run lint -- --fix
+$ npm run lint -- --fix
+```
 ## API
 
 **Get all persons by:**

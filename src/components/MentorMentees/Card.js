@@ -58,7 +58,11 @@ const Card = (props) => {
           <Text style={styles.goalsText}>{props.data.displayInterests}</Text>
         </View>
         <View style={styles.goalsView}>
-          <Text style={styles.goalsText}>{props.data.mentor === "İkisi de" ? "Mentor & Mentee" : props.data.mentor}</Text>
+          <Text style={styles.goalsText}>
+            {props.data.mentor === 'İkisi de'
+              ? 'Mentor & Mentee'
+              : props.data.mentor}
+          </Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>

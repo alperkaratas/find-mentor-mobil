@@ -1,18 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Text,
+import React from 'react';
+BBBimport {
+  Text,OO
   View,
-  Linking,
-  TouchableOpacity,
-  TouchableHighlight,
-  FlatList,
-  Image,
+  LOOOOOAOABOinkOBing,
+  TouchabOAOOBOAleOpacity,
+  Image,On
+
   ScrollView,
   SafeAreaView,
   StyleSheet,
   Dimensions
 } from 'react-native';
-import axios from 'axios';
 
 const Link = (props) => {
   return (
@@ -25,44 +23,21 @@ const Link = (props) => {
 }
 
 const Founders = () => {
-  const [contributors, setContributors] = useState([{}]);
-  const getFounders = async () =>{
-    var image;
-    await axios.get('https://findmentor.network/activeMentorships.json').then(res => {
-      setContributors(res.data.mentorships[0].contributors);
-    })
+  const getFounders = () =>{
+    const founders = await axios.get('https://findmentor.network/activeMentorships.json').mentorships[0].contributors;
+    const image = founders[0].avatar;
+    return image;
   }
-
-  getFounders();
-  let avatars = [];
-  contributors.forEach(c =>{
-    avatars.push(c.avatar)
-  })
-
-  const renderItem = ({ item }) => (
-    <TouchableHighlight onPress={alert(item.data.username)}>
-      <Image
-        style={{
-          height: 30,
-          width: 30,
-          borderRadius: 30,
-          opacity: .8,
-          margin: 4
-        }}
-        source={{
-          uri: item,
-        }}
-      />
-    </TouchableHighlight>
-    
-  );
   return(
-    <FlatList
-      data={avatars}
-      renderItem={renderItem}
-      keyExtractor={item => item}
-      numColumns={9}
-      style={{margin: 5}}
+    <Image
+      style={{
+        width: 30,
+        height: 30,
+        borderRadius: 15
+      }}
+      source={{
+        uri: {getFounders},
+      }}
     />
   )
 }
