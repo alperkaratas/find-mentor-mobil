@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import SplashScreen from 'react-native-splash-screen';
+
 import {
   WelcomePage,
   Mentors,
@@ -52,6 +54,9 @@ function Tabs() {
 }
 
 const Router = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
