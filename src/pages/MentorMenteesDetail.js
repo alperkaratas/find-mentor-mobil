@@ -215,8 +215,8 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
               style={{backgroundColor: '#d6d6d6', height: 1, marginVertical: 8}}
             />
           </ScrollView>
-          <View style={{marginTop: 50}}>
-            <QRCode size={250} value={qrValue} />
+          <View style={styles.qrCodeView}>
+            <QRCode size={210} value={qrValue} />
           </View>
         </View>
       </ScrollView>
@@ -314,6 +314,16 @@ const styles = StyleSheet.create({
   goalsView: {marginVertical: 7, marginBottom: 35},
   oneIconView: {
     marginHorizontal: 20,
+  },
+  qrCodeView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    borderWidth: 0.5,
+    marginVertical: 30,
+    backgroundColor: 'white',
+    width: Dimensions.get('window').width / 1.5,
+    height: Dimensions.get('window').height / 3.4,
   },
 });
 
