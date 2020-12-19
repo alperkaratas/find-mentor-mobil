@@ -1,6 +1,8 @@
 package com.findmentor;
 
 import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreen; // Imported for Splash Screen
+import android.os.Bundle; // Imported for Splash Screen
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +14,10 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "FindMentor";
   }
+  /* For Splash Screen */
+  @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this);
+        super.onCreate(savedInstanceState);
+    }
 }
