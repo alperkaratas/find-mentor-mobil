@@ -55,9 +55,8 @@ function Tabs() {
 
 const Router = () => {
   useEffect(() => {
-    SplashScreen.hide()
-    
-  }, [])
+    SplashScreen.hide();
+  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>

@@ -46,6 +46,11 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
             interests: data.interests,
             goals: data.goals,
             avatar: data.avatar,
+            mentor: data.mentor,
+            slug: data.slug,
+            twitter: data.twitter,
+            github: data.github,
+            linkedin: data.linkedin,
           })
         }
         style={{
