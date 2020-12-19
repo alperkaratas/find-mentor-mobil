@@ -4,7 +4,6 @@ import {
   View,
   Linking,
   TouchableOpacity,
-  TouchableHighlight,
   FlatList,
   Image,
   ScrollView,
@@ -17,9 +16,9 @@ import axios from 'axios';
 const Link = (props) => {
   return (
     <TouchableOpacity
-      onPress={() => Linking.openURL(props.url)}
+      onPress={() => Linking.openURL( props.url )}
     >
-      <Text style={styles.link}> {props.text}</Text>
+      <Text style={ styles.link }> { props.text } </Text>
     </TouchableOpacity>
   )
 }
@@ -29,18 +28,20 @@ const Founders = () => {
   const getFounders = async () =>{
     var image;
     await axios.get('https://findmentor.network/activeMentorships.json').then(res => {
-      setContributors(res.data.mentorships[0].contributors);
+      setContributors( res.data.mentorships[0].contributors );
     })
   }
 
   getFounders();
   let avatars = [];
   contributors.forEach(c =>{
-    avatars.push(c.avatar)
+    avatars.push( c.avatar )
   })
 
   const renderItem = ({ item }) => (
-    <TouchableHighlight onPress={alert(item.data.username)}>
+    <TouchableOpacity
+      onPress={ () => Linking.openURL( item.github_address ) }
+    >
       <Image
         style={{
           height: 30,
@@ -50,18 +51,18 @@ const Founders = () => {
           margin: 4
         }}
         source={{
-          uri: item,
+          uri: item.avatar,
         }}
       />
-    </TouchableHighlight>
-    
+    </TouchableOpacity>
   );
+
   return(
     <FlatList
-      data={avatars}
+      data={contributors}
       renderItem={renderItem}
-      keyExtractor={item => item}
-      numColumns={9}
+      keyExtractor={item => item.username}
+      numColumns={8}
       style={{margin: 5}}
     />
   )
@@ -96,7 +97,7 @@ const HowItWorks = (props) => {
                     url='https://github.com/abhisheknaiidu/awesome-github-profile-readme'
                   />
                 </Text>
-                <Text>2. Have a descriptive LinkedIn <Link text='2' /> profile.</Text>
+                <Text>2. Have a descriptive LinkedIn profile.</Text>
                 <Text>3. Join the <Link text='Discord Server' url='https://discord.com/invite/nkbmBSW8CM' />.</Text>
               </View>
 
@@ -106,12 +107,12 @@ const HowItWorks = (props) => {
               <View style={styles.listContent}>
                 <Text>1. First, what you want to learn, decide.</Text>
                 <Text>
-                  2. You should visit active 
+                  2. You should visit active
                   <TouchableOpacity
                     onPress={() => props.navigation.navigate('ActiveMentorships')}
                   >
                     <Text style={styles.link}>
-                      mentorships page
+                    {' '}mentorships page
                     </Text>
                   </TouchableOpacity>
                   .You don't want to miss a mentorships campaign round.
@@ -121,7 +122,7 @@ const HowItWorks = (props) => {
                   <TouchableOpacity
                     onPress={() => props.navigation.navigate('Mentors')}
                   >
-                    <Text style={styles.link}>mentors page</Text>
+                    <Text style={styles.link}> mentors page</Text>
                   </TouchableOpacity>
                   . There are tons of GREAT mentors in there.
                   </Text>
@@ -167,7 +168,7 @@ const HowItWorks = (props) => {
               <Text style={styles.subjectHeader}>Join Us</Text>
               <Link
                 text='Click here'
-                url='https://www.gstatic.com/_/freebird/_/js/k=freebird.v.tr.A5kaNJA4Mos.O/d=1/ct=zgms/rs=AMjVe6h07Ua8Cfd6bjX4g7b5HPXnuG018w/m=viewer_base'
+                url='https://docs.google.com/forms/d/e/1FAIpQLSc3uWpEeBUCXMoGAJ5qm31p9URBppxXT5L4RJFrTOJee9TFjQ/viewform'
               />
             </View>
 
@@ -326,10 +327,14 @@ const styles = StyleSheet.create({
   box: {
     margin: 10,
     backgroundColor: '#e9ecef',
-    padding: 5,
-    borderWidth: 3,
-    borderColor: '#dcdcdc',
-    borderRadius: 5
+    padding: 10,
+    paddingTop: 5,
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    shadowColor: '#dcdcdc',
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 5
   },
   boxHeader: {
     marginBottom: 5,
@@ -345,7 +350,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   link: {
-    color: '#007bff'
+    color: '#007bff',
+    position: 'relative',
+    top: 4
   },
   listHeader: {
     margin: 5,
