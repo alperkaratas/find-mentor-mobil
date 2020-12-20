@@ -2,7 +2,7 @@
 
 ---
 
-# Find Mentor Mobile App
+# [Find Mentor](https://github.com/cagataycali/find-mentor) Mobile App
 
 The project's aim is to collect feedback from people.
 
