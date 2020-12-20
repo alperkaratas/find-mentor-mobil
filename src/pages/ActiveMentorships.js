@@ -11,8 +11,9 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {RenderItem} from '../components/activementorships';
+import {BackButton} from '../components/SVGR-Components';
 
-const ActiveMentorships = () => {
+const ActiveMentorships = (props) => {
   const [mentorship, setMentorships] = useState([{}]);
 
   useEffect(() => {
@@ -30,6 +31,11 @@ const ActiveMentorships = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={styles.backButtonView}>
+        <BackButton width={25} height={25} fill={'#17aa90'} />
+      </TouchableOpacity>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>Active Mentorships</Text>
       </View>
@@ -65,13 +71,18 @@ const ActiveMentorships = () => {
 
 const styles = StyleSheet.create({
   headerView: {
-    marginVertical: 20,
+    marginBottom: 10,
     alignSelf: 'center',
   },
   headerText: {
     color: '#17aa92',
     fontSize: 27,
     fontWeight: 'bold',
+  },
+  backButtonView: {
+    alignSelf: 'flex-start',
+    marginHorizontal: 20,
+    marginVertical: 15,
   },
 });
 
