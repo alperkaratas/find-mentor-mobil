@@ -43,7 +43,7 @@ curl https://findmentor.network/activeMentorships.json
 
 ## Current Screenshots
 
-<img height="465" width="240" src="./screen-shots/main.png"/> <img height="465" width="240" src="./screen-shots/active-mentorships.png"/> <img height="465" width="240" src="./screen-shots/mentors.png"/> <img height="465" width="240" src="./screen-shots/mentees.png"/> <img height="465" width="240" src="./screen-shots/mentor-profile.png"/> <img height="465" width="240" src="./screen-shots/mentee-profile.png"/> <img height="465" width="240" src="./screen-shots/how-it-works.png"/>
+<img height="465" width="240" alt="HomePage" src="./screen-shots/main.png"/> <img height="465" width="240" src="./screen-shots/active-mentorships.png"/> <img height="465" width="240" src="./screen-shots/mentors.png"/> <img height="465" width="240" src="./screen-shots/mentees.png"/> <img height="465" width="240" src="./screen-shots/mentor-profile.png"/> <img height="465" width="240" src="./screen-shots/mentee-profile.png"/> <img height="465" width="240" src="./screen-shots/how-it-works.png"/>
 
 ---
 
