@@ -11,7 +11,7 @@ import {
   Linking,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import {Avatar, Accessory} from 'react-native-elements';
+import {Avatar} from 'react-native-elements';
 import {BackButton} from '../components/SVGR-Components';
 import {Divider} from 'react-native-elements';
 import {
@@ -19,6 +19,7 @@ import {
   Linkedin,
   Twitter,
   ShareTwitter,
+  Question,
 } from '../components/SVGR-Components';
 
 const MentorMenteesDetail = ({route, navigation, props}) => {
@@ -29,12 +30,12 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
     avatar,
     mentor,
     slug,
-    twitter,
+    twitter_handle,
     linkedin,
     github,
   } = route.params;
   const qrValue = `https://findmentor.network/peer/${slug}`;
-  const twitterUrl = twitter;
+  const twitterUrl = twitter_handle;
   const githubUrl = github;
   const linkedinUrl = linkedin;
 
@@ -111,6 +112,33 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
               Share on Twitter
             </Text>
           </TouchableOpacity>
+          {mentor === 'Mentor' || mentor === 'İkisi de' ? (
+            <TouchableOpacity
+              onPress={() => Linking.openURL(twitterUrl)}
+              style={{
+                backgroundColor: '#fdc405',
+                padding: 10,
+                borderRadius: 5,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <Question
+                  style={{marginRight: 10}}
+                  width={25}
+                  height={25}
+                  fill={'#222323'}
+                />
+                <Text
+                  style={{fontSize: 17, fontWeight: '600', color: '#222323'}}>
+                  Ask for a mentorship project
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ) : null}
           <ScrollView style={styles.infoView}>
             <View style={styles.interestView}>
               <Text

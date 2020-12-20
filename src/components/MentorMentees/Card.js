@@ -48,7 +48,7 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
             avatar: data.avatar,
             mentor: data.mentor,
             slug: data.slug,
-            twitter: data.twitter,
+            twitter_handle: data.twitter_handle,
             github: data.github,
             linkedin: data.linkedin,
           })

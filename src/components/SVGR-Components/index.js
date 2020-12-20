@@ -10,3 +10,4 @@ export * from './Search';
 export * from './Logo';
 export * from './JoinNowAddUser';
 export * from './ShareTwitter';
+export * from './Question';
