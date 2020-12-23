@@ -53,22 +53,6 @@ const WelcomePage = (props) => {
         <View style={styles.discordTextView}>
           <Text>You can join this channel to communicate with each other.</Text>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            onPress={() => Linking.openURL(joinNow)}
-            style={styles.joinButton}>
-            <JoinNowAddUser width={25} height={25} fill={'white'} />
-            <Text style={styles.buttonText}>Join Now</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('ActiveMentorships')}
-            style={styles.activeMentorshipsButton}>
-            <View style={{alignItems: 'center'}}>
-              <Text style={styles.buttonText}>Active</Text>
-            </View>
-            <Text style={styles.buttonText}>Mentorships</Text>
-          </TouchableOpacity>
-        </View>
       </SafeAreaView>
     </ScrollView>
   );
@@ -132,6 +116,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: Dimensions.get('window').width / 2.5,
+    height: Dimensions.get('window').height / 11,
+    borderWidth: 1,
+    padding: 12,
+    borderRadius: 50,
+    backgroundColor: '#17aa92',
+    borderColor: '#17aa92',
+  },
+  activeButton: {
+    marginHorizontal: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: Dimensions.get('window').width,
     height: Dimensions.get('window').height / 11,
     borderWidth: 1,
     padding: 12,

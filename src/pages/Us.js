@@ -14,45 +14,45 @@ import {Divider} from 'react-native-elements';
 import {SearchBar} from '../components/SearchBar';
 import {Search} from '../components/SVGR-Components';
 
-const Mentors = (props) => {
-  const [mentor, setMentors] = useState(['']);
+const Us = (props) => {
+  const [person, setPerson] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
 
   useEffect(() => {
-    getMentors();
+    getPersons();
   }, []);
 
-  const getMentors = async () => {
+  const getPersons = async () => {
     let response = await axios.get('https://findmentor.network/persons.json');
-    setMentors(response.data.filter((x) => x.mentor == 'Mentor'));
+    setPerson(response.data.filter((x) => typeof(x.mentor) == "string"));
     setLoading(false);
   };
 
   const renderItem = ({item}) => (
-    <Card data={item} navigation={props.navigation} listType="mentor" />
+    <Card data={item} navigation={props.navigation} />
   );
 
   const filteredData = text
-    ? mentor.filter((item) => {
+    ? person.filter((item) => {
         const itemData = item.name.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       })
-    : mentor;
+    : person;
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>👉Mentors</Text>
+        <Text style={styles.headerText}>👉 Mentors & Mentees 👈</Text>
         <Divider style={{backgroundColor: '#454646', height: 3}} />
       </View>
       <View style={styles.searchView}>
-        <Search fill={'#17aa90'} width={27} height={27} />
+        <Search fill={'#2c7cfe'} width={27} height={27} />
         <SearchBar
           onSearch={(text) => setText(text)}
           value={text}
-          placeHolder="Search in mentors by name..."
+          placeHolder="Search Mentors & Mentees"
           placeHolderTextColor="white"
         />
       </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 27,
     fontWeight: 'bold',
-    color: '#17aa90',
+    color: '#2c7cfe',
   },
   textInput: {
     textAlign: 'center',
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {Mentors};
+export {Us};

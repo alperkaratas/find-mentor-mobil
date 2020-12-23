@@ -25,7 +25,7 @@ const Mentees = (props) => {
 
   const getPersons = async () => {
     let response = await axios.get('https://findmentor.network/persons.json');
-    setPerson(response.data.filter((x) => x.mentor !== 'Mentor'));
+    setPerson(response.data.filter((x) => x.mentor !== String));
     setLoading(false);
   };
 

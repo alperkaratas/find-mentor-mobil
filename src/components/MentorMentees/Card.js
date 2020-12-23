@@ -21,18 +21,21 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
     const menteeColor = '#2f6998';
     const bothColor = '#ffc400';
 
-    if (listType === 'mentor') {
+    if (listType === 'Mentor') {
       return mentorColor;
     }
-    if (listType === 'mentee') {
+    if (listType === 'Mentee') {
       return menteeColor;
+    }
+    if (listType === 'İkisi de') {
+      return bothColor;
     }
     switch (data.mentor) {
       case 'Mentor':
         return mentorColor;
       case 'Mentee':
         return menteeColor;
-      default:
+      case 'İkisi de':
         return bothColor;
     }
   };
@@ -94,7 +97,7 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
             {data.displayInterests}
           </Text>
         </View>
-        {listType === 'both' && (
+        {listType === 'İkisi de' && (
           <View style={styles.goalsView}>
             <Text style={styles.goalsText}>
               {data.mentor === 'İkisi de' ? 'Mentor & Mentee' : data.mentor}
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 7,
     marginVertical: 15,
     alignSelf: 'center',
-    height: 40,
+    height: 35,
   },
   goalsText: {
     color: '#898989',

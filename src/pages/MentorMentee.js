@@ -14,18 +14,18 @@ import {Divider} from 'react-native-elements';
 import {SearchBar} from '../components/SearchBar';
 import {Search} from '../components/SVGR-Components';
 
-const Mentors = (props) => {
-  const [mentor, setMentors] = useState(['']);
+const MentorMentee = (props) => {
+  const [both, setBoth] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
 
   useEffect(() => {
-    getMentors();
+    getBoth();
   }, []);
 
-  const getMentors = async () => {
+  const getBoth = async () => {
     let response = await axios.get('https://findmentor.network/persons.json');
-    setMentors(response.data.filter((x) => x.mentor == 'Mentor'));
+    setBoth(response.data.filter((x) => x.mentor == 'İkisi de'));
     setLoading(false);
   };
 
@@ -34,17 +34,17 @@ const Mentors = (props) => {
   );
 
   const filteredData = text
-    ? mentor.filter((item) => {
+    ? both.filter((item) => {
         const itemData = item.name.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       })
-    : mentor;
+    : both;
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>👉Mentors</Text>
+        <Text style={styles.headerText}>👉Mentors/Mentees</Text>
         <Divider style={{backgroundColor: '#454646', height: 3}} />
       </View>
       <View style={styles.searchView}>
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {Mentors};
+export {MentorMentee};

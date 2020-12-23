@@ -9,7 +9,9 @@ import {
   WelcomePage,
   Mentors,
   Mentees,
+  MentorMentee,
   HowItWorks,
+  Us,
   ActiveMentorships,
   MentorMenteesDetail,
 } from './pages';
@@ -25,8 +27,8 @@ const Stack = createStackNavigator();
 
 const icons = {
   Home: <HomeIcon width={27} height={27} />,
-  Mentors: <MentorIcon width={27} height={27} />,
-  Mentees: <MenteeIcon width={27} height={27} />,
+  Us: <MentorIcon width={27} height={27} />,
+  Mentorships: <MenteeIcon width={27} height={27} />,
   HowItWorks: <HIWorksIcon width={27} height={27} />,
 };
 
@@ -46,8 +48,8 @@ function Tabs() {
         },
       }}>
       <Tab.Screen name="Home" component={WelcomePage} />
-      <Tab.Screen name="Mentors" component={Mentors} />
-      <Tab.Screen name="Mentees" component={Mentees} />
+      <Tab.Screen name="Us" component={Us}/>
+      <Tab.Screen name="Mentorships" component={ActiveMentorships} />
       <Tab.Screen name="HowItWorks" component={HowItWorks} />
     </Tab.Navigator>
   );
@@ -62,7 +64,9 @@ const Router = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Tabs" component={Tabs} />
         <Stack.Screen name="MMDetail" component={MentorMenteesDetail} />
-        <Stack.Screen name="ActiveMentorships" component={ActiveMentorships} />
+        <Stack.Screen name="Mentors" component={Mentors} />
+        <Stack.Screen name="Mentees" component={Mentees} />
+        <Stack.Screen name="MentorMentee" component={MentorMentee} />
       </Stack.Navigator>
     </NavigationContainer>
   );

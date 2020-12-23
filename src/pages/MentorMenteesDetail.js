@@ -55,26 +55,84 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
       <ScrollView style={{flex: 1, backgroundColor: '#222323'}}>
         <View style={{alignItems: 'center'}}>
           <View style={styles.mmView}>
-            {mentor === 'Mentor' || mentor === 'İkisi de' ? (
-              <Text
-                style={{color: '#fdc405', fontWeight: 'bold', fontSize: 23}}>
+            {
+              mentor === 'İkisi de' ? (
+                <Text
+                  style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
+                  Mentor & Mentee
+                </Text>
+              ) : (
+                <Text
+                  style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
+                  Mentor & Mentee
+                </Text>
+              )              
+              ||
+              mentor !== 'İkiside' ? (
+                mentor === 'Mentor' ? (
+                  <Text
+                    style={{color: '#17aa90', fontWeight: 'bold', fontSize: 23}}>
+                    Mentor
+                  </Text>
+                ) : (
+                  <Text
+                    style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
+                    Mentor & Mentee
+                  </Text>
+                )
+  
+                ||
+  
+                mentor === 'Mentee' ? (
+                  <Text
+                    style={{color: '#2f6998', fontWeight: 'bold', fontSize: 23}}>
+                    Mentee
+                  </Text>
+                ) : (
+                  <Text
+                    style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
+                    Mentor & Mentee
+                  </Text>
+                )
+              ) : (
+                <Text
+                style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
                 Mentor & Mentee
-              </Text>
-            ) : (
-              <Text style={styles.mmText}>{mentor}</Text>
-            )}
+                </Text>
+              )
+            }
           </View>
           <View
             style={
-              mentor === 'Mentor' || mentor === 'İkisi de'
-                ? {
-                    marginVertical: 20,
-                    borderWidth: 2,
-                    borderRadius: 100,
-                    borderColor: '#fdc405',
-                  }
-                : styles.avatarView
-            }>
+              mentor === 'İkisi de' ? {
+                marginVertical: 20,
+                borderWidth: 2,
+                borderRadius: 100,
+                borderColor: '#ffc400'
+              } : styles.avatarView
+
+              ||
+
+              mentor !== 'İkiside' ? (
+                mentor === 'Mentor' ? {
+                  marginVertical: 20,
+                  borderWidth: 2,
+                  borderRadius: 100,
+                  borderColor: '#17aa90'
+                } : styles.avatarView
+  
+                ||
+  
+                mentor === 'Mentee' ? {
+                  marginVertical: 20,
+                  borderWidth: 2,
+                  borderRadius: 100,
+                  borderColor: '#2f6998'
+                } : styles.avatarView
+
+              ) : styles.avatarView
+            }
+          >
             <Avatar
               rounded
               source={{
