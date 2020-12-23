@@ -97,6 +97,25 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
             {data.displayInterests}
           </Text>
         </View>
+        <View style={styles.nameView}>
+          {
+            data.mentor === 'İkisi de' ? (
+              <Text
+                numberOfLines={2}
+                ellipsizeMode="tail"
+                style={{...styles.nameStyle, color: getBorderTopColor()}}>
+                Mentor & Mentee
+              </Text>
+            ) : (
+              <Text
+                numberOfLines={2} ellipsizeMode="tail"
+                style={{...styles.nameStyle, color: getBorderTopColor()}}>
+                {data.mentor}
+              </Text>
+            )
+          }
+
+        </View>
         {listType === 'İkisi de' && (
           <View style={styles.goalsView}>
             <Text style={styles.goalsText}>
@@ -150,6 +169,7 @@ const styles = StyleSheet.create({
   },
   goalsText: {
     color: '#898989',
+    alignSelf: 'center',
   },
 });
 
