@@ -30,7 +30,7 @@ const Mentees = (props) => {
   };
 
   const renderItem = ({item}) => (
-    <Card data={item} navigation={props.navigation} listType="mentee" />
+    <Card data={item} navigation={props.navigation} listType="name" />
   );
 
   const filteredData = text
@@ -44,7 +44,7 @@ const Mentees = (props) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>👉Mentees</Text>
+        <Text style={styles.headerText}>👉 Mentees</Text>
         <Divider style={{backgroundColor: '#454646', height: 3}} />
       </View>
       <View style={styles.searchView}>
