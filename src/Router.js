@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from 'react-native-splash-screen';
-
+import { Provider as PaperProvider } from "react-native-paper";
 import {
   WelcomePage,
   Mentors,
@@ -46,7 +46,16 @@ function Tabs() {
         },
       }}>
       <Tab.Screen name="Home" component={WelcomePage} />
-      <Tab.Screen name="Mentors" component={Mentors} />
+      <Tab.Screen name="Mentors" component={Mentors} options={{
+          title: 'My home',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
       <Tab.Screen name="Mentees" component={Mentees} />
       <Tab.Screen name="HowItWorks" component={HowItWorks} />
     </Tab.Navigator>
@@ -58,6 +67,7 @@ const Router = () => {
     SplashScreen.hide();
   }, []);
   return (
+    <PaperProvider>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Tabs" component={Tabs} />
@@ -65,6 +75,7 @@ const Router = () => {
         <Stack.Screen name="ActiveMentorships" component={ActiveMentorships} />
       </Stack.Navigator>
     </NavigationContainer>
+    </PaperProvider>
   );
 };
 

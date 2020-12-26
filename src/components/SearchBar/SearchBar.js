@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 1.2,
   },
   textInput: {
-    borderRadius: 10,
-    backgroundColor: '#222323',
-    color: 'white',
+    borderRadius: 5,
+    height:40,
+    backgroundColor: 'white',
+    color: 'black',
     fontSize: 16,
     paddingVertical: 10,
     paddingHorizontal: 5,
