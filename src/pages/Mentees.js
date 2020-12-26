@@ -48,15 +48,15 @@ const Mentees = (props) => {
    <Appbar.Header theme={{colors: {primary: "#222323"}}}>
      {
        search ? <View style={styles.searchView}>
-       <Appbar.BackAction onPress={() => {setSearch(e => !e);setText("")}} color={"white"} />
+       <Appbar.BackAction onPress={() => {setSearch(e => !e);setText("")}} color={"#2f6998"} />
        <SearchBar
          onSearch={(text) => setText(text)}
          value={text}
          placeHolder="Search in mentees by name..."
          placeHolderTextColor="black"
        />
-     </View> :<><Appbar.Content title="Mentors" />
-     <Appbar.Action icon="magnify" onPress={() => {setSearch(e => !e)}} color={"white"} /></>
+     </View> :<><Appbar.Content title="Mentees" color="#2f6998" />
+     <Appbar.Action icon="magnify" onPress={() => {setSearch(e => !e)}} color={"#2f6998"} /></>
      }
 
     </Appbar.Header>

@@ -47,7 +47,6 @@ function Tabs() {
       }}>
       <Tab.Screen name="Home" component={WelcomePage} />
       <Tab.Screen name="Mentors" component={Mentors} options={{
-          title: 'My home',
           headerStyle: {
             backgroundColor: '#f4511e',
           },
