@@ -6,6 +6,7 @@ import {
   View,
   FlatList,
   StyleSheet,
+  StatusBar,
   ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
@@ -13,12 +14,12 @@ import {Card} from '../components/MentorMentees';
 import {Divider} from 'react-native-elements';
 import {SearchBar} from '../components/SearchBar';
 import {Search} from '../components/SVGR-Components';
-
+import { Appbar, IconButton,Colors  } from 'react-native-paper';
 const Mentees = (props) => {
   const [person, setPerson] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
-
+  const [search, setSearch] = useState(false)
   useEffect(() => {
     getPersons();
   }, []);
@@ -43,19 +44,23 @@ const Mentees = (props) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.headerView}>
-        <Text style={styles.headerText}>👉 Mentees</Text>
-        <Divider style={{backgroundColor: '#454646', height: 3}} />
-      </View>
-      <View style={styles.searchView}>
-        <Search fill={'#2c7cfe'} width={27} height={27} />
-        <SearchBar
-          onSearch={(text) => setText(text)}
-          value={text}
-          placeHolder="Search in Mentees by name..."
-          placeHolderTextColor="white"
-        />
-      </View>
+      <StatusBar backgroundColor="black"/>
+   <Appbar.Header theme={{colors: {primary: "#222323"}}}>
+     {
+       search ? <View style={styles.searchView}>
+       <Appbar.BackAction onPress={() => {setSearch(e => !e);setText("")}} color={"#2f6998"} />
+       <SearchBar
+         onSearch={(text) => setText(text)}
+         value={text}
+         placeHolder="Search in mentees by name..."
+         placeHolderTextColor="black"
+       />
+     </View> :<><Appbar.Content title="Mentees" color="#2f6998" />
+     <Appbar.Action icon="magnify" onPress={() => {setSearch(e => !e)}} color={"#2f6998"} /></>
+     }
+
+    </Appbar.Header>
+      
       {loading ? (
         <View style={{marginVertical: 10}}>
           <ActivityIndicator size="large" />
