@@ -12,12 +12,14 @@ import {
   HowItWorks,
   ActiveMentorships,
   MentorMenteesDetail,
+  Events
 } from './pages';
 import {
   HomeIcon,
   MentorIcon,
   MenteeIcon,
   HIWorksIcon,
+  EventIcon
 } from './components/SVGR-Components';
 
 const Tab = createBottomTabNavigator();
@@ -28,6 +30,7 @@ const icons = {
   Mentors: <MentorIcon width={27} height={27} />,
   Mentees: <MenteeIcon width={27} height={27} />,
   HowItWorks: <HIWorksIcon width={27} height={27} />,
+  Events: <EventIcon width={27} height={27} />
 };
 
 function Tabs() {
@@ -57,6 +60,7 @@ function Tabs() {
         }}/>
       <Tab.Screen name="Mentees" component={Mentees} />
       <Tab.Screen name="HowItWorks" component={HowItWorks} />
+      <Tab.Screen name="Events" component={Events} />
     </Tab.Navigator>
   );
 }
