@@ -34,7 +34,7 @@ const EventInfo = (props) => {
                 :
                 <View style={{ flexDirection: 'row' }}>
                   <Link text={props.data.speakers[0].name} url={props.data.speakers[0].twitter} style={{ color: '#8a8a8a', fontWeight: 'bold' }} />
-                  <Text>,{' '}</Text>
+                  <Text style={{ color: '#a6a6a6'}}>,{' '}</Text>
                   <Link text={props.data.speakers[1].name} url={props.data.speakers[1].twitter} style={{ color: '#8a8a8a', fontWeight: 'bold' }} />
                 </View>
             }
@@ -51,19 +51,7 @@ const EventInfo = (props) => {
 
 const Events = (props) => {
 
-  var d = [
-    {
-      event_name: 'What is the findmenotor? How was start?',
-      speakers: [
-        {
-          name: 'Çağatay Çalı',
-          twitter: 'https://twitter.com/cagataycali',
-        },
-      ],
-      link: 'https://www.youtube.com/watch?v=IhNCyOx-2Yc&t=1s',
-      date: '2020/12/20',
-      status: 'done',
-    },
+  var data = [
     {
       event_name: 'Q/A About Technical Interviews with Orhan ÖZALP',
       speakers: [
@@ -80,6 +68,18 @@ const Events = (props) => {
       date: '2020/12/24',
       status: 'done',
     },
+    {
+      event_name: 'What is the findmenotor? How was start?',
+      speakers: [
+        {
+          name: 'Çağatay Çalı',
+          twitter: 'https://twitter.com/cagataycali',
+        },
+      ],
+      link: 'https://www.youtube.com/watch?v=IhNCyOx-2Yc&t=1s',
+      date: '2020/12/20',
+      status: 'done',
+    }
   ]
 
   return (
@@ -94,7 +94,7 @@ const Events = (props) => {
           </Text>
         </View>
         <FlatList
-          data={d}
+          data={data}
           keyExtractor={(item, index) => item.event_name}
           renderItem={({ item }) => <EventInfo data={item} />}
         />

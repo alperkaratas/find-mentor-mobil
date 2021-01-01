@@ -36,7 +36,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
   } = route.params;
   const qrValue = `https://findmentor.network/peer/${slug}`;
   const twitterUrl = twitter_handle;
-  const githubUrl = `${github}/${github.replace('https://github.com/','')}`;
+  const githubUrl = github;
   const linkedinUrl = linkedin;
 
   var readMe;
@@ -254,11 +254,6 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
             <Divider
               style={{backgroundColor: '#d6d6d6', height: 1, marginVertical: 8}}
             />
-            <View>
-              <Text>
-                {githubUrl}
-              </Text>
-            </View>
           </ScrollView>
           <ScrollView style={styles.activeMshipsView}>
             <View
