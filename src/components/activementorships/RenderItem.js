@@ -15,24 +15,27 @@ const RenderItem = (props) => {
     var mentorSlug = props.data.mentor.replace(`https://findmentor.network/peer/`, '');// get slug from mentor link
     let user={};
     let response = await axios.get('https://findmentor.network/persons.json');
-    setMentors(response.data.filter((x) => x.mentor !== 'Mentee'));
+    let filtred = response.data.filter((x) => x.mentor !== 'Mentee')
+    setMentors(filtred);
+  
     mentors.forEach(m=>{ // get slug from persons.js
       if(m.slug === mentorSlug){
         user=m;
+        return;
       }
       });
-
-    props.navigation.navigate('MMDetail', {
-      name: user.name,
-      interests: user.interests,
-      goals: user.goals,
-      avatar: user.avatar,
-      mentor: user.mentor,
-      slug: user.slug,
-      twitter_handle: user.twitter_handle,
-      github: user.github,
-      linkedin: user.linkedin,
-    })
+    if(!(mentors.length === 1 && mentors[0] == ''))
+      props.navigation.navigate('MMDetail', {
+        name: user.name,
+        interests: user.interests,
+        goals: user.goals,
+        avatar: user.avatar,
+        mentor: user.mentor,
+        slug: user.slug,
+        twitter_handle: user.twitter_handle,
+        github: user.github,
+        linkedin: user.linkedin,
+      })
   }
   return (
     <View style={styles.box}>
