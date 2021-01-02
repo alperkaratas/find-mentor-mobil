@@ -9,22 +9,21 @@ import {
 import axios from 'axios';
 
 const RenderItem = (props) => {
-  const [mentors, setMentors] = useState(['']);
   
   const goToDetail = async () => {
-    var mentorSlug = props.data.mentor.replace(`https://findmentor.network/peer/`, '');// get slug from mentor link
+    var mentorSlug = props.data.mentor.replace('https://findmentor.network/peer/', '');// get slug from mentor link
     let user={};
     let response = await axios.get('https://findmentor.network/persons.json');
-    let filtred = response.data.filter((x) => x.mentor !== 'Mentee')
-    setMentors(filtred);
-  
-    mentors.forEach(m=>{ // get slug from persons.js
-      if(m.slug === mentorSlug){
-        user=m;
+    let filtered = response.data.filter((x) => x.mentor !== 'Mentee')
+    
+    filtered.forEach(m => { // get slug from persons.js
+      if( m.slug === mentorSlug ){
+        user = m;
         return;
       }
-      });
-    if(!(mentors.length === 1 && mentors[0] == ''))
+    });
+
+    if(!(filtered.length === 1 && filtered[0] == ''))
       props.navigation.navigate('MMDetail', {
         name: user.name,
         interests: user.interests,
@@ -39,7 +38,7 @@ const RenderItem = (props) => {
   }
   return (
     <View style={styles.box}>
-      <TouchableOpacity onPress={goToDetail}>
+      <TouchableOpacity onPress={ goToDetail }>
       <Text style={styles.header}>{ props.data.slug }</Text>
       <Text>{ props.data.goal }</Text>      
       <Text>{ props.data.mentor }</Text>
