@@ -13,6 +13,7 @@ import QRCode from 'react-native-qrcode-svg';
 import {Avatar} from 'react-native-elements';
 import {BackButton} from '../components/SVGR-Components';
 import {Divider} from 'react-native-elements';
+import {WebView} from 'react-native-webview'
 import {
   Github,
   Linkedin,
@@ -38,6 +39,8 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
   const githubUrl = github;
   const linkedinUrl = linkedin;
 
+  var readMe;
+
   return (
     <SafeAreaView style={styles.mainView}>
       <TouchableOpacity
@@ -47,7 +50,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
           width={25}
           height={25}
           fill={
-            mentor === 'Mentor' || mentor === 'İkisi de' ? '#17aa90' : '#2c7cfe'
+            mentor === 'Mentor' || mentor === 'Both' ? '#17aa90' : '#2c7cfe'
           }
         />
       </TouchableOpacity>
@@ -55,7 +58,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
         <View style={{alignItems: 'center'}}>
           <View style={styles.mmView}>
             {
-              mentor === 'İkisi de' ? (
+              mentor === 'Both' ? (
                 <Text
                   style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
                   Mentor & Mentee
@@ -103,7 +106,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
           </View>
           <View
             style={
-              mentor === 'İkisi de' ? {
+              mentor === 'Both' ? {
                 marginVertical: 20,
                 borderWidth: 2,
                 borderRadius: 100,
@@ -169,7 +172,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
               Share on Twitter
             </Text>
           </TouchableOpacity>
-          {mentor === 'Mentor' || mentor === 'İkisi de' ? (
+          {mentor === 'Mentor' || mentor === 'Both' ? (
             <TouchableOpacity
               onPress={() => Linking.openURL(twitterUrl)}
               style={{
