@@ -40,8 +40,7 @@ const RenderItem = (props) => {
     <View style={styles.box}>
       <TouchableOpacity onPress={ goToDetail }>
       <Text style={styles.header}>{ props.data.slug }</Text>
-      <Text>{ props.data.goal }</Text>      
-      <Text>{ props.data.mentor }</Text>
+      <Text>{ props.data.goal }</Text>
       </TouchableOpacity>
     </View>
   );
