@@ -69,7 +69,7 @@ const Events = (props) => {
       status: 'done',
     },
     {
-      event_name: 'What is the findmenotor? How was start?',
+      event_name: 'What is the findmentor? How was start?',
       speakers: [
         {
           name: 'Çağatay Çalı',

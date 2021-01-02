@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import axios from 'axios';
 const RenderItem = (props) => {
   
   const goToDetail = async () => {
-    var mentorSlug = props.data.mentor.replace('https://findmentor.network/peer/', '');// get slug from mentor link
+    var mentorSlug = props.data.mentor.replace('https://findmentor.network/peer/', '');// get slug from props
     let user={};
     let response = await axios.get('https://findmentor.network/persons.json');
     let filtered = response.data.filter((x) => x.mentor !== 'Mentee')
@@ -40,8 +40,7 @@ const RenderItem = (props) => {
     <View style={styles.box}>
       <TouchableOpacity onPress={ goToDetail }>
       <Text style={styles.header}>{ props.data.slug }</Text>
-      <Text>{ props.data.goal }</Text>      
-      <Text>{ props.data.mentor }</Text>
+      <Text>{ props.data.goal }</Text>
       </TouchableOpacity>
     </View>
   );
