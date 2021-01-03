@@ -21,6 +21,7 @@ import {
   ShareTwitter,
   Question,
 } from '../components/SVGR-Components';
+import axios from 'axios';
 
 const MentorMenteesDetail = ({route, navigation, props}) => {
   const {
@@ -40,11 +41,24 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
   const linkedinUrl = linkedin;
 
   var readMe;
+  let contributed = 'asdasaaaa';
+  const getContributed = async () => {
+    let user={};
+    const response = await axios.get('https://findmentor.network/persons.json');
+    response.data.forEach(m => {
+      if( m.slug === slug ){
+        user = m;
+        return;
+      }
+    });
+    console.warn(user.contributions)//doğru bir şekilde alım yapıldı.
 
+  }
   return (
     <SafeAreaView style={styles.mainView}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
+        onLongPress={getContributed}
         style={styles.buttonView}>
         <BackButton
           width={25}
@@ -284,6 +298,11 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
             <Divider
               style={{backgroundColor: '#d6d6d6', height: 1, marginVertical: 8}}
             />
+            <View>
+              <Text>
+                {contributed}
+              </Text>
+            </View>
           </ScrollView>
           <ScrollView style={styles.tweetsView}>
             <View
@@ -307,7 +326,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
             </View>
           </ScrollView>
           <View style={styles.qrCodeView}>
-            <QRCode size={210} value={qrValue} />
+            <QRCode size={210} value={qrValue}/>
           </View>
         </View>
       </ScrollView>
@@ -414,7 +433,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     backgroundColor: 'white',
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 3.4,
+    height: Dimensions.get('window').height / 2.5,
   },
 });
 
