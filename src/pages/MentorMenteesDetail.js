@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
+  Image,
   ScrollView,
   Dimensions,
   Linking,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import {Avatar} from 'react-native-elements';
-import {BackButton} from '../components/SVGR-Components';
-import {Divider} from 'react-native-elements';
-import {WebView} from 'react-native-webview'
+import { Avatar } from 'react-native-elements';
+import { BackButton } from '../components/SVGR-Components';
+import { Divider } from 'react-native-elements';
+
 import {
   Github,
   Linkedin,
@@ -23,7 +25,7 @@ import {
 } from '../components/SVGR-Components';
 import axios from 'axios';
 
-const MentorMenteesDetail = ({route, navigation, props}) => {
+const MentorMenteesDetail = ({ route, navigation, props }) => {
   const {
     name,
     interests,
@@ -39,26 +41,81 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
   const twitterUrl = twitter_handle;
   const githubUrl = github;
   const linkedinUrl = linkedin;
+  const [contributions, setContributions] = useState([{}]);
+  const [isContributer, setIsContributer] = useState(true);
+  useEffect(() => {
+    getContributions();
+  }, []);
 
-  var readMe;
-  let contributed = 'asdasaaaa';
-  const getContributed = async () => {
-    let user={};
+  const getContributions = async () => {
     const response = await axios.get('https://findmentor.network/persons.json');
-    response.data.forEach(m => {
-      if( m.slug === slug ){
-        user = m;
-        return;
+    response.data.forEach(p => {
+      if (p.slug === slug) {      
+        p.contributions.length === 0 ? setIsContributer(false) : setContributions(p.contributions);
       }
     });
-    console.warn(user.contributions)//doğru bir şekilde alım yapıldı.
+  };
+  
+  const Contributions = () => {
 
+    const ContributerImages= (props) => {
+      const renderItem = ({item}) => (
+        <TouchableOpacity onPress={() => Linking.openURL(item.github_address)}>
+          <Image
+            style={{
+              height: 30,
+              width: 30,
+              borderRadius: 30,
+              opacity: 0.8,
+              margin: 4,
+            }}
+            source={{
+              uri: item.avatar,
+            }}
+          />
+        </TouchableOpacity>
+      );
+    
+      return (
+        <View style={{alignItems: 'center'}}>
+          <FlatList
+            data={props.data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.username}
+            numColumns={7}
+            style={{ alignItems: 'center' }}
+          />
+        </View>
+      );
+    };
+
+    const renderItem = ({ item }) => (
+      <View style={{ borderBottomWidth: 1, borderBottomColor: '#e6e6e6', margin: 3}}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 3 }}>
+          { item.slug }
+        </Text>
+        <Text style={{ textAlign: 'justify' }}>
+          { item.goal }
+        </Text>
+        <ContributerImages data={ item.contributors }/>
+      </View>
+    );
+
+    return (
+      <View>
+      <FlatList
+        data={contributions}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.slug}
+      />
+      </View>
+    )
   }
+
   return (
     <SafeAreaView style={styles.mainView}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        onLongPress={getContributed}
         style={styles.buttonView}>
         <BackButton
           width={25}
@@ -68,54 +125,54 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
           }
         />
       </TouchableOpacity>
-      <ScrollView style={{flex: 1, backgroundColor: '#222323'}}>
-        <View style={{alignItems: 'center'}}>
+      <ScrollView style={{ flex: 1, backgroundColor: '#222323' }}>
+        <View style={{ alignItems: 'center' }}>
           <View style={styles.mmView}>
             {
               mentor === 'Both' ? (
                 <Text
-                  style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
+                  style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
                   Mentor & Mentee
                 </Text>
               ) : (
                 <Text
-                  style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
+                  style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
                   Mentor & Mentee
-                </Text>
-              )              
-              ||
-              mentor !== 'İkiside' ? (
-                mentor === 'Mentor' ? (
-                  <Text
-                    style={{color: '#17aa90', fontWeight: 'bold', fontSize: 23}}>
-                    Mentor
-                  </Text>
-                ) : (
-                  <Text
-                    style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
-                    Mentor & Mentee
-                  </Text>
-                )
-  
-                ||
-  
-                mentor === 'Mentee' ? (
-                  <Text
-                    style={{color: '#2f6998', fontWeight: 'bold', fontSize: 23}}>
-                    Mentee
-                  </Text>
-                ) : (
-                  <Text
-                    style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
-                    Mentor & Mentee
-                  </Text>
-                )
-              ) : (
-                <Text
-                style={{color: '#ffc400', fontWeight: 'bold', fontSize: 23}}>
-                Mentor & Mentee
                 </Text>
               )
+                ||
+                mentor !== 'İkiside' ? (
+                    mentor === 'Mentor' ? (
+                      <Text
+                        style={{ color: '#17aa90', fontWeight: 'bold', fontSize: 23 }}>
+                        Mentor
+                      </Text>
+                    ) : (
+                      <Text
+                        style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
+                        Mentor & Mentee
+                      </Text>
+                    )
+
+                      ||
+
+                      mentor === 'Mentee' ? (
+                          <Text
+                            style={{ color: '#2f6998', fontWeight: 'bold', fontSize: 23 }}>
+                            Mentee
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
+                            Mentor & Mentee
+                          </Text>
+                        )
+                  ) : (
+                    <Text
+                      style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
+                      Mentor & Mentee
+                    </Text>
+                  )
             }
           </View>
           <View
@@ -127,26 +184,26 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                 borderColor: '#ffc400'
               } : styles.avatarView
 
-              ||
-
-              mentor !== 'İkiside' ? (
-                mentor === 'Mentor' ? {
-                  marginVertical: 20,
-                  borderWidth: 2,
-                  borderRadius: 100,
-                  borderColor: '#17aa90'
-                } : styles.avatarView
-  
                 ||
-  
-                mentor === 'Mentee' ? {
-                  marginVertical: 20,
-                  borderWidth: 2,
-                  borderRadius: 100,
-                  borderColor: '#2f6998'
-                } : styles.avatarView
 
-              ) : styles.avatarView
+                mentor !== 'İkiside' ? (
+                    mentor === 'Mentor' ? {
+                      marginVertical: 20,
+                      borderWidth: 2,
+                      borderRadius: 100,
+                      borderColor: '#17aa90'
+                    } : styles.avatarView
+
+                      ||
+
+                      mentor === 'Mentee' ? {
+                          marginVertical: 20,
+                          borderWidth: 2,
+                          borderRadius: 100,
+                          borderColor: '#2f6998'
+                        } : styles.avatarView
+
+                  ) : styles.avatarView
             }
           >
             <Avatar
@@ -160,7 +217,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
           <View style={styles.nameView}>
             <Text style={styles.nameText}>{name}</Text>
             <Divider
-              style={{backgroundColor: 'white', height: 1, marginVertical: 5}}
+              style={{ backgroundColor: 'white', height: 1, marginVertical: 5 }}
             />
           </View>
           <TouchableOpacity
@@ -174,7 +231,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                 `https://twitter.com/intent/tweet?text=Hey!%20Here%20my%20find-mentor%20profile&url=https://findmentor.network/peer/${slug}`,
               )
             }>
-            <View style={{marginRight: 10}}>
+            <View style={{ marginRight: 10 }}>
               <ShareTwitter width={30} height={30} />
             </View>
             <Text
@@ -201,13 +258,13 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                   flexDirection: 'row',
                 }}>
                 <Question
-                  style={{marginRight: 10}}
+                  style={{ marginRight: 10 }}
                   width={25}
                   height={25}
                   fill={'#222323'}
                 />
                 <Text
-                  style={{fontSize: 17, fontWeight: '600', color: '#222323'}}>
+                  style={{ fontSize: 17, fontWeight: '600', color: '#222323' }}>
                   Ask for a mentorship project
                 </Text>
               </View>
@@ -216,17 +273,17 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
           <ScrollView style={styles.infoView}>
             <View style={styles.interestView}>
               <Text
-                style={{color: '#22262a', fontSize: 20, fontWeight: 'bold'}}>
+                style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
                 Interests:{' '}
               </Text>
-              <Text style={{color: '#23272b'}}>{interests}</Text>
+              <Text style={{ color: '#23272b' }}>{interests}</Text>
             </View>
             <View style={styles.goalsView}>
               <Text
-                style={{color: '#22262a', fontSize: 20, fontWeight: 'bold'}}>
+                style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
                 Goals:{' '}
               </Text>
-              <Text style={{color: '#23272b'}}>{goals}</Text>
+              <Text style={{ color: '#23272b' }}>{goals}</Text>
             </View>
             <View
               style={{
@@ -257,76 +314,74 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <View style={{marginRight: 10}}>
+              <View style={{ marginRight: 10 }}>
                 <Github width={35} height={35} />
               </View>
               <Text
-                style={{fontSize: 25, fontWeight: 'bold', color: '#22262a'}}>
+                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
                 GitHub
               </Text>
             </View>
             <Divider
-              style={{backgroundColor: '#d6d6d6', height: 1, marginVertical: 8}}
+              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
             />
           </ScrollView>
-          <ScrollView style={styles.activeMshipsView}>
+          <ScrollView style={ mentor == 'Mentee' ? { display: 'none' } : styles.activeMshipsView}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
               <Text
-                style={{fontSize: 25, fontWeight: 'bold', color: '#22262a'}}>
+                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
                 Active Mentorships
               </Text>
             </View>
             <Divider
-              style={{backgroundColor: '#d6d6d6', height: 1, marginVertical: 8}}
+              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
             />
           </ScrollView>
-          <ScrollView style={styles.contView}>
+          <View style={ isContributer ? styles.contView : { display: 'none' } }>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
               <Text
-                style={{fontSize: 25, fontWeight: 'bold', color: '#22262a'}}>
+                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
                 Contributed
               </Text>
             </View>
             <Divider
-              style={{backgroundColor: '#d6d6d6', height: 1, marginVertical: 8}}
+              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
             />
             <View>
-              <Text>
-                {contributed}
-              </Text>
+              <Contributions />
             </View>
-          </ScrollView>
+          </View>
           <ScrollView style={styles.tweetsView}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <View style={{marginRight: 10}}>
+              <View style={{ marginRight: 10 }}>
                 <ShareTwitter width={35} height={35} />
               </View>
               <Text
-                style={{fontSize: 25, fontWeight: 'bold', color: '#22262a'}}>
+                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
                 Tweets
               </Text>
             </View>
             <Divider
-              style={{backgroundColor: '#d6d6d6', height: 1, marginVertical: 8}}
+              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
             />
             <View>
-              
+
             </View>
           </ScrollView>
           <View style={styles.qrCodeView}>
-            <QRCode size={210} value={qrValue}/>
+            <QRCode size={210} value={qrValue} />
           </View>
         </View>
       </ScrollView>
@@ -376,7 +431,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginHorizontal: 3,
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 4,
     backgroundColor: 'white',
     margin: 20,
   },
@@ -401,12 +455,12 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   contView: {
+    display: 'flex',
     borderRadius: 5,
     borderWidth: 0.5,
     padding: 15,
     marginHorizontal: 3,
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 4,
     backgroundColor: 'white',
     margin: 20,
   },
@@ -420,8 +474,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     margin: 20,
   },
-  interestView: {marginVertical: 7},
-  goalsView: {marginVertical: 7, marginBottom: 35},
+  interestView: { marginVertical: 7 },
+  goalsView: { marginVertical: 7, marginBottom: 35 },
   oneIconView: {
     marginHorizontal: 20,
   },
@@ -437,4 +491,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {MentorMenteesDetail};
+export { MentorMenteesDetail };

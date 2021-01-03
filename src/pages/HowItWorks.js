@@ -61,7 +61,7 @@ const Founders = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.username}
         numColumns={8}
-        style={{margin: 5}}
+        style={{ margin: 5 }}
       />
     </View>
   );
