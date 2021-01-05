@@ -7,19 +7,19 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
-  StatusBar
+  StatusBar,
 } from 'react-native';
 import axios from 'axios';
 import {Card} from '../components/MentorMentees';
 import {Divider} from 'react-native-elements';
 import {SearchBar} from '../components/SearchBar';
 import {Search} from '../components/SVGR-Components';
-import { Appbar, IconButton,Colors  } from 'react-native-paper';
+import {Appbar, IconButton, Colors} from 'react-native-paper';
 const Mentors = (props) => {
   const [person, setPerson] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
-  const [search, setSearch] = useState(false)
+  const [search, setSearch] = useState(false);
   useEffect(() => {
     getPersons();
   }, []);
@@ -28,6 +28,8 @@ const Mentors = (props) => {
     let response = await axios.get('https://findmentor.network/persons.json');
     setPerson(response.data.filter((x) => x.mentor !== 'Mentee'));
     setLoading(false);
+    var count = Object.keys('mentors' + person).length;
+    console.log('mentors' + count);
   };
 
   const renderItem = ({item}) => (
@@ -42,25 +44,44 @@ const Mentors = (props) => {
       })
     : person;
 
+  const count = Object.keys(person).length;
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar backgroundColor="black"/>
-   <Appbar.Header theme={{colors: {primary: "#222323"}}}>
-     {
-       search ? <View style={styles.searchView}>
-       <Appbar.BackAction onPress={() => {setSearch(e => !e);setText("")}} color={"#ffc400"} />
-       <SearchBar
-         onSearch={(text) => setText(text)}
-         value={text}
-         placeHolder="Search in mentors by name..."
-         placeHolderTextColor="black"
-       />
-     </View> :<><Appbar.Content title="Mentors" color="#ffc400" />
-     <Appbar.Action icon="magnify" onPress={() => {setSearch(e => !e)}} color={"#ffc400"} /></>
-     }
-       
-        
-    </Appbar.Header>
+      <StatusBar backgroundColor="black" />
+      <Appbar.Header theme={{colors: {primary: '#222323'}}}>
+        {search ? (
+          <View style={styles.searchView}>
+            <Appbar.BackAction
+              onPress={() => {
+                setSearch((e) => !e);
+                setText('');
+              }}
+              color={'#ffc400'}
+            />
+            <SearchBar
+              onSearch={(text) => setText(text)}
+              value={text}
+              placeHolder="Search in mentors by name..."
+              placeHolderTextColor="black"
+            />
+          </View>
+        ) : (
+          <>
+            <Appbar.Content
+              title={'👉 ' + 'Mentors' + '  (' + count + ')'}
+              color="#ffc400"
+            />
+            <Appbar.Action
+              icon="magnify"
+              onPress={() => {
+                setSearch((e) => !e);
+              }}
+              color={'#ffc400'}
+            />
+          </>
+        )}
+      </Appbar.Header>
       {loading ? (
         <View style={{marginVertical: 10}}>
           <ActivityIndicator size="large" />

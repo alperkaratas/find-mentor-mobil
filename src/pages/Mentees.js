@@ -14,12 +14,12 @@ import {Card} from '../components/MentorMentees';
 import {Divider} from 'react-native-elements';
 import {SearchBar} from '../components/SearchBar';
 import {Search} from '../components/SVGR-Components';
-import { Appbar, IconButton,Colors  } from 'react-native-paper';
+import {Appbar, IconButton, Colors} from 'react-native-paper';
 const Mentees = (props) => {
   const [person, setPerson] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
-  const [search, setSearch] = useState(false)
+  const [search, setSearch] = useState(false);
   useEffect(() => {
     getPersons();
   }, []);
@@ -41,26 +41,44 @@ const Mentees = (props) => {
         return itemData.indexOf(textData) > -1;
       })
     : person;
-
+  const count = Object.keys(person).length;
   return (
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar backgroundColor="black"/>
-   <Appbar.Header theme={{colors: {primary: "#222323"}}}>
-     {
-       search ? <View style={styles.searchView}>
-       <Appbar.BackAction onPress={() => {setSearch(e => !e);setText("")}} color={"#2f6998"} />
-       <SearchBar
-         onSearch={(text) => setText(text)}
-         value={text}
-         placeHolder="Search in mentees by name..."
-         placeHolderTextColor="black"
-       />
-     </View> :<><Appbar.Content title="Mentees" color="#2f6998" />
-     <Appbar.Action icon="magnify" onPress={() => {setSearch(e => !e)}} color={"#2f6998"} /></>
-     }
+      <StatusBar backgroundColor="black" />
+      <Appbar.Header theme={{colors: {primary: '#222323'}}}>
+        {search ? (
+          <View style={styles.searchView}>
+            <Appbar.BackAction
+              onPress={() => {
+                setSearch((e) => !e);
+                setText('');
+              }}
+              color={'#2f6998'}
+            />
+            <SearchBar
+              onSearch={(text) => setText(text)}
+              value={text}
+              placeHolder="Search in mentees by name..."
+              placeHolderTextColor="black"
+            />
+          </View>
+        ) : (
+          <>
+            <Appbar.Content
+              title={'👉 ' + 'Mentees' + '  (' + count + ')'}
+              color="#2f6998"
+            />
+            <Appbar.Action
+              icon="magnify"
+              onPress={() => {
+                setSearch((e) => !e);
+              }}
+              color={'#2f6998'}
+            />
+          </>
+        )}
+      </Appbar.Header>
 
-    </Appbar.Header>
-      
       {loading ? (
         <View style={{marginVertical: 10}}>
           <ActivityIndicator size="large" />
