@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -11,6 +11,7 @@ import {
   Dimensions,
   Linking,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import QRCode from 'react-native-qrcode-svg';
 import { Avatar } from 'react-native-elements';
 import { BackButton } from '../components/SVGR-Components';
@@ -26,41 +27,44 @@ import {
 import axios from 'axios';
 
 const MentorMenteesDetail = ({ route, navigation, props }) => {
-  const {
-    name,
-    interests,
-    goals,
-    avatar,
-    mentor,
-    slug,
-    twitter_handle,
-    linkedin,
-    github,
-  } = route.params;
-  const qrValue = `https://findmentor.network/peer/${slug}`;
-  const twitterUrl = twitter_handle;
-  const githubUrl = github;
-  const linkedinUrl = linkedin;
-  const [contributions, setContributions] = useState([{}]);
-  const [isContributer, setIsContributer] = useState(true);
+
   useEffect(() => {
-    getContributions();
+    getPersonInfo(route.params.slug);
   }, []);
 
-  const getContributions = async () => {
+  const [person, setPerson] = useState({});
+  const [contributions, setContributions] = useState([{}]);
+  const [isContributer, setIsContributer] = useState(true);
+
+  const linkedinUrl = person.linkedin;
+  const qrValue = `https://findmentor.network/peer/${person.slug}`;
+  const twitterUrl = person.twitter_handle;
+  const githubUrl = person.github;
+
+  const scrollRef = useRef();
+
+  const getPersonInfo = async (slug) => {
     const response = await axios.get('https://findmentor.network/persons.json');
     response.data.forEach(p => {
-      if (p.slug === slug) {      
+      if (p.slug === slug) {
+        setPerson(p);
         p.contributions.length === 0 ? setIsContributer(false) : setContributions(p.contributions);
       }
     });
   };
-  
+
   const Contributions = () => {
 
-    const ContributerImages= (props) => {
-      const renderItem = ({item}) => (
-        <TouchableOpacity onPress={() => Linking.openURL(item.github_address)}>
+    const ContributerImages = (props) => {
+
+      const renderItem = ({ item }) => (
+        <TouchableOpacity onPress={() =>
+          item.fmn_url == "" ? Linking.openURL(item.github_address)
+            : (getPersonInfo(item.fmn_url.replace('/peer/', '')) && scrollRef.current?.scrollTo({
+              y: 0,
+              animated: true,
+            }))
+        }>
           <Image
             style={{
               height: 30,
@@ -75,9 +79,9 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
           />
         </TouchableOpacity>
       );
-    
+
       return (
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
           <FlatList
             data={props.data}
             renderItem={renderItem}
@@ -90,24 +94,24 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
     };
 
     const renderItem = ({ item }) => (
-      <View style={{ borderBottomWidth: 1, borderBottomColor: '#e6e6e6', margin: 3}}>
+      <View style={{ marginBottom: 10 }}>
         <Text style={{ fontSize: 18, fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 3 }}>
-          { item.slug }
+          {item.slug}
         </Text>
         <Text style={{ textAlign: 'justify' }}>
-          { item.goal }
+          {item.goal}
         </Text>
-        <ContributerImages data={ item.contributors }/>
+        <ContributerImages data={item.contributors} />
       </View>
     );
 
     return (
       <View>
-      <FlatList
-        data={contributions}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.slug}
-      />
+        <FlatList
+          data={contributions}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.slug}
+        />
       </View>
     )
   }
@@ -121,15 +125,15 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
           width={25}
           height={25}
           fill={
-            mentor === 'Mentor' || mentor === 'Both' ? '#17aa90' : '#2c7cfe'
+            person.mentor === 'Mentor' || person.mentor === 'Both' ? '#17aa90' : '#2c7cfe'
           }
         />
       </TouchableOpacity>
-      <ScrollView style={{ flex: 1, backgroundColor: '#222323' }}>
+      <ScrollView style={{ flex: 1, backgroundColor: '#222323' }} ref={scrollRef} >
         <View style={{ alignItems: 'center' }}>
           <View style={styles.mmView}>
             {
-              mentor === 'Both' ? (
+              person.mentor === 'Both' ? (
                 <Text
                   style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
                   Mentor & Mentee
@@ -141,8 +145,8 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                 </Text>
               )
                 ||
-                mentor !== 'İkiside' ? (
-                    mentor === 'Mentor' ? (
+                person.mentor !== 'İkiside' ? (
+                    person.mentor === 'Mentor' ? (
                       <Text
                         style={{ color: '#17aa90', fontWeight: 'bold', fontSize: 23 }}>
                         Mentor
@@ -156,7 +160,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
 
                       ||
 
-                      mentor === 'Mentee' ? (
+                      person.mentor === 'Mentee' ? (
                           <Text
                             style={{ color: '#2f6998', fontWeight: 'bold', fontSize: 23 }}>
                             Mentee
@@ -177,7 +181,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
           </View>
           <View
             style={
-              mentor === 'Both' ? {
+              person.mentor === 'Both' ? {
                 marginVertical: 20,
                 borderWidth: 2,
                 borderRadius: 100,
@@ -186,8 +190,8 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
 
                 ||
 
-                mentor !== 'İkiside' ? (
-                    mentor === 'Mentor' ? {
+                person.mentor !== 'İkiside' ? (
+                    person.mentor === 'Mentor' ? {
                       marginVertical: 20,
                       borderWidth: 2,
                       borderRadius: 100,
@@ -196,7 +200,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
 
                       ||
 
-                      mentor === 'Mentee' ? {
+                      person.mentor === 'Mentee' ? {
                           marginVertical: 20,
                           borderWidth: 2,
                           borderRadius: 100,
@@ -209,13 +213,13 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
             <Avatar
               rounded
               source={{
-                uri: avatar,
+                uri: person.avatar,
               }}
               size="xlarge"
             />
           </View>
           <View style={styles.nameView}>
-            <Text style={styles.nameText}>{name}</Text>
+            <Text style={styles.nameText}>{person.name}</Text>
             <Divider
               style={{ backgroundColor: 'white', height: 1, marginVertical: 5 }}
             />
@@ -243,7 +247,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               Share on Twitter
             </Text>
           </TouchableOpacity>
-          {mentor === 'Mentor' || mentor === 'Both' ? (
+          {person.mentor === 'Mentor' || person.mentor === 'Both' ? (
             <TouchableOpacity
               onPress={() => Linking.openURL(twitterUrl)}
               style={{
@@ -276,14 +280,14 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                 style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
                 Interests:{' '}
               </Text>
-              <Text style={{ color: '#23272b' }}>{interests}</Text>
+              <Text style={{ color: '#23272b' }}>{person.interests}</Text>
             </View>
             <View style={styles.goalsView}>
               <Text
                 style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
                 Goals:{' '}
               </Text>
-              <Text style={{ color: '#23272b' }}>{goals}</Text>
+              <Text style={{ color: '#23272b' }}>{person.goals}</Text>
             </View>
             <View
               style={{
@@ -326,7 +330,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
             />
           </ScrollView>
-          <ScrollView style={ mentor == 'Mentee' ? { display: 'none' } : styles.activeMshipsView}>
+          <ScrollView style={person.mentor == 'Mentee' ? { display: 'none' } : styles.activeMshipsView}>
             <View
               style={{
                 flexDirection: 'row',
@@ -341,7 +345,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
             />
           </ScrollView>
-          <View style={ isContributer ? styles.contView : { display: 'none' } }>
+          <View style={isContributer ? styles.contView : { display: 'none' }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -377,7 +381,9 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
             />
             <View>
-
+              <Text>
+                {person.twitter_handle}
+              </Text>
             </View>
           </ScrollView>
           <View style={styles.qrCodeView}>

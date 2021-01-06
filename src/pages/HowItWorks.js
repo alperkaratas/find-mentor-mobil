@@ -38,7 +38,8 @@ const Founders = () => {
   });
 
   const renderItem = ({item}) => (
-    <TouchableOpacity onPress={() => Linking.openURL(item.github_address)}>
+    <TouchableOpacity onPress={() => Linking.openURL(item.github_address)
+    }>
       <Image
         style={{
           height: 30,

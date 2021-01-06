@@ -25,15 +25,7 @@ const RenderItem = (props) => {
 
     if(!(filtered.length === 1 && filtered[0] == ''))
       props.navigation.navigate('MMDetail', {
-        name: user.name,
-        interests: user.interests,
-        goals: user.goals,
-        avatar: user.avatar,
-        mentor: user.mentor,
-        slug: user.slug,
-        twitter_handle: user.twitter_handle,
-        github: user.github,
-        linkedin: user.linkedin,
+        slug: user.slug
       })
   }
   return (

@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {Card} from '../components/MentorMentees';
-import {Divider} from 'react-native-elements';
 import {SearchBar} from '../components/SearchBar';
 import {Search} from '../components/SVGR-Components';
 import { Appbar, IconButton,Colors  } from 'react-native-paper';
