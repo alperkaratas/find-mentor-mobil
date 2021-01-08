@@ -11,11 +11,11 @@ import {
   Dimensions,
   Linking,
 } from 'react-native';
-import { WebView } from 'react-native-webview';
 import QRCode from 'react-native-qrcode-svg';
 import { Avatar } from 'react-native-elements';
 import { BackButton } from '../components/SVGR-Components';
 import { Divider } from 'react-native-elements';
+import { WebView } from 'react-native-webview'
 
 import {
   Github,
@@ -28,17 +28,17 @@ import axios from 'axios';
 
 const MentorMenteesDetail = ({ route, navigation, props }) => {
 
+  const [person, setPerson] = useState({});
+  const [contributions, setContributions] = useState([{}]);
+  const [isContributer, setIsContributer] = useState(true);
+  const [tweetHtml, setTweetHtml] = useState('');
+
   useEffect(() => {
     getPersonInfo(route.params.slug);
   }, []);
 
-  const [person, setPerson] = useState({});
-  const [contributions, setContributions] = useState([{}]);
-  const [isContributer, setIsContributer] = useState(true);
-
   const linkedinUrl = person.linkedin;
   const qrValue = `https://findmentor.network/peer/${person.slug}`;
-  const twitterUrl = person.twitter_handle;
   const githubUrl = person.github;
 
   const scrollRef = useRef();
@@ -49,9 +49,35 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
       if (p.slug === slug) {
         setPerson(p);
         p.contributions.length === 0 ? setIsContributer(false) : setContributions(p.contributions);
+
       }
     });
   };
+  //console.warn(person.twitter_handle)
+
+  const getTweet = async () => {
+    //console.warn(person.twitter_handle)
+    await axios.get(`https://publish.twitter.com/oembed?url=${person.twitter_handle}`).then(
+      resp => {
+        //console.warn(resp)
+        resp.json().then(json => {
+          //console.warn(json.html)
+          setTweetHtml(`<!DOCTYPE html>\
+        <html>\
+          <head>\
+            <meta charset="utf-8">\
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+            </head>\
+            <body>\
+              ${json.html}\
+            </body>\
+        </html>`)
+        })
+      }
+    ).catch(err => {
+      //console.warn(err)
+    })
+  }
 
   const Contributions = () => {
 
@@ -232,7 +258,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
             }}
             onPress={() =>
               Linking.openURL(
-                `https://twitter.com/intent/tweet?text=Hey!%20Here%20my%20find-mentor%20profile&url=https://findmentor.network/peer/${slug}`,
+                `https://twitter.com/intent/tweet?text=Hey!%20Here%20my%20find-mentor%20profile&url=https://findmentor.network/peer/${person.slug}`,
               )
             }>
             <View style={{ marginRight: 10 }}>
@@ -249,7 +275,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
           </TouchableOpacity>
           {person.mentor === 'Mentor' || person.mentor === 'Both' ? (
             <TouchableOpacity
-              onPress={() => Linking.openURL(twitterUrl)}
+              onPress={() => Linking.openURL(person.twitter_handle)}
               style={{
                 backgroundColor: '#fdc405',
                 padding: 10,
@@ -297,7 +323,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               }}>
               <TouchableOpacity
                 style={styles.oneIconView}
-                onPress={() => Linking.openURL(twitterUrl)}>
+                onPress={() => Linking.openURL(person.twitter_handle)}>
                 <Twitter width={40} height={40} />
               </TouchableOpacity>
               <TouchableOpacity
@@ -382,8 +408,12 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
             />
             <View>
               <Text>
-                {person.twitter_handle}
+                {tweetHtml}
               </Text>
+              {/* <WebView
+                source={{ html: tweetHtml }}
+                style={{ marginTop: 20 , height: 350 }}
+              /> */}
             </View>
           </ScrollView>
           <View style={styles.qrCodeView}>
