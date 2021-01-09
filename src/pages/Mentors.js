@@ -11,15 +11,13 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {Card} from '../components/MentorMentees';
-import {Divider} from 'react-native-elements';
 import {SearchBar} from '../components/SearchBar';
-import {Search} from '../components/SVGR-Components';
-import {Appbar, IconButton, Colors} from 'react-native-paper';
+
 const Mentors = (props) => {
   const [person, setPerson] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
-  const [search, setSearch] = useState(false);
+
   useEffect(() => {
     getPersons();
   }, []);
@@ -49,39 +47,17 @@ const Mentors = (props) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar backgroundColor="black" />
-      <Appbar.Header theme={{colors: {primary: '#222323'}}}>
-        {search ? (
-          <View style={styles.searchView}>
-            <Appbar.BackAction
-              onPress={() => {
-                setSearch((e) => !e);
-                setText('');
-              }}
-              color={'#ffc400'}
-            />
-            <SearchBar
-              onSearch={(text) => setText(text)}
-              value={text}
-              placeHolder="Search in mentors by name..."
-              placeHolderTextColor="black"
-            />
-          </View>
-        ) : (
-          <>
-            <Appbar.Content
-              title={'👉 ' + 'Mentors' + '  (' + count + ')'}
-              color="#ffc400"
-            />
-            <Appbar.Action
-              icon="magnify"
-              onPress={() => {
-                setSearch((e) => !e);
-              }}
-              color={'#ffc400'}
-            />
-          </>
-        )}
-      </Appbar.Header>
+      <View style={styles.headerView}>
+        <Text style={styles.headerText}>👉Mentors ({count})</Text>
+      </View>
+      <View style={styles.searchView}>
+        <SearchBar
+          onSearch={(text) => setText(text)}
+          value={text}
+          placeHolder="Search in mentors by name..."
+          placeHolderTextColor="black"
+        />
+      </View>
       {loading ? (
         <View style={{marginVertical: 10}}>
           <ActivityIndicator size="large" />
@@ -103,7 +79,7 @@ const Mentors = (props) => {
 const styles = StyleSheet.create({
   headerView: {
     alignSelf: 'center',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   headerText: {
     fontSize: 27,

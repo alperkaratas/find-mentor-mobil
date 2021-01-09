@@ -12,13 +12,11 @@ import {
 import axios from 'axios';
 import {Card} from '../components/MentorMentees';
 import {SearchBar} from '../components/SearchBar';
-import {Search} from '../components/SVGR-Components';
-import {Appbar, IconButton, Colors} from 'react-native-paper';
 const Mentees = (props) => {
   const [person, setPerson] = useState(['']);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
-  const [search, setSearch] = useState(false);
+
   useEffect(() => {
     getPersons();
   }, []);
@@ -32,7 +30,6 @@ const Mentees = (props) => {
   const renderItem = ({item}) => (
     <Card data={item} navigation={props.navigation} listType="name" />
   );
-
   const filteredData = text
     ? person.filter((item) => {
         const itemData = item.name.toUpperCase();
@@ -44,39 +41,17 @@ const Mentees = (props) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar backgroundColor="black" />
-      <Appbar.Header theme={{colors: {primary: '#222323'}}}>
-        {search ? (
-          <View style={styles.searchView}>
-            <Appbar.BackAction
-              onPress={() => {
-                setSearch((e) => !e);
-                setText('');
-              }}
-              color={'#2f6998'}
-            />
-            <SearchBar
-              onSearch={(text) => setText(text)}
-              value={text}
-              placeHolder="Search in mentees by name..."
-              placeHolderTextColor="black"
-            />
-          </View>
-        ) : (
-          <>
-            <Appbar.Content
-              title={'👉 ' + 'Mentees' + '  (' + count + ')'}
-              color="#2f6998"
-            />
-            <Appbar.Action
-              icon="magnify"
-              onPress={() => {
-                setSearch((e) => !e);
-              }}
-              color={'#2f6998'}
-            />
-          </>
-        )}
-      </Appbar.Header>
+      <View style={styles.headerView}>
+        <Text style={styles.headerText}>👉Mentees ({count})</Text>
+      </View>
+      <View style={styles.searchView}>
+        <SearchBar
+          onSearch={(text) => setText(text)}
+          value={text}
+          placeHolder="Search in mentees by name..."
+          placeHolderTextColor="black"
+        />
+      </View>
 
       {loading ? (
         <View style={{marginVertical: 10}}>
@@ -99,7 +74,7 @@ const Mentees = (props) => {
 const styles = StyleSheet.create({
   headerView: {
     alignSelf: 'center',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   headerText: {
     fontSize: 27,
