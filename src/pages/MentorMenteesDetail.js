@@ -205,7 +205,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                     Share on Twitter
             </Text>
                 </TouchableOpacity>
-                {person.mentorships.length > 0 ? (
+                {person.mentor !== 'Mentee' ? (
                   <TouchableOpacity
                     onPress={() => Linking.openURL(person.twitter_handle)}
                     style={{
