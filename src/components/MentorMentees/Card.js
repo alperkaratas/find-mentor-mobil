@@ -106,8 +106,8 @@ const Card = ({ navigation, data, listType = 'mentor' }) => {
 const styles = StyleSheet.create({
   cardView: {
     marginLeft: 12,
-    backgroundColor: '#222323',
-    marginVertical: 15,
+    backgroundColor: '#fff',
+    marginVertical: 6,
     alignSelf: 'center',
     width: Dimensions.get('window').width / 2.2,
     height: 300,

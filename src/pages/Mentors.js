@@ -60,7 +60,7 @@ const Mentors = (props) => {
       </View>
       {loading ? (
         <View style={{marginVertical: 10}}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#32475b"/>
         </View>
       ) : (
         <View style={{flex: 1}}>

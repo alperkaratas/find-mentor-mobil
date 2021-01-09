@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  ActivityIndicator,
   Linking,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -32,10 +33,10 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
   const [contributions, setContributions] = useState([{}]);
   const [isContributer, setIsContributer] = useState(true);
   const [twitterHtml, setTwitterHtml] = useState(''); // twitter timeline html
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getPersonInfo(route.params.slug);
-
   }, []);
 
   const linkedinUrl = person.linkedin;
@@ -49,6 +50,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
       if (p.slug === slug) {
         setPerson(p);
         p.contributions.length === 0 ? setIsContributer(false) : setContributions(p.contributions);
+        setLoading(false)
       }
     });
   };
@@ -135,6 +137,11 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
           }
         />
       </TouchableOpacity>
+      {loading ? (
+        <View style={{marginVertical: 10}}>
+          <ActivityIndicator size="large" color="#32475b"/>
+        </View>
+      ) : (
       <ScrollView style={{ flex: 1, backgroundColor: '#222323' }} ref={scrollRef} >
         <View style={{ alignItems: 'center' }}>
           <View style={styles.mmView}>
@@ -398,7 +405,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
             <QRCode size={210} value={qrValue} />
           </View>
         </View>
-      </ScrollView>
+      </ScrollView>)}
     </SafeAreaView>
   );
 };

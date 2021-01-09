@@ -5,13 +5,16 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
   StyleSheet
 } from 'react-native';
 import axios from 'axios';
 import { Card } from '../components/MentorMentees';
+import { BackButton } from '../components/SVGR-Components';
 
 const JobSeekers = (props) => {
   const [person, setPerson] = useState(['']);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     getPersons();
   }, []);
@@ -20,6 +23,7 @@ const JobSeekers = (props) => {
     let response = await axios.get('https://findmentor.network/persons.json');
     let hirePersons = response.data.filter(p => p.isHireable === true);
     setPerson(hirePersons.sort(function (a, b) { return b.contributions.length - a.contributions.length }))
+    setLoading(false)
   };
 
   const renderItem = ({ item }) => (
@@ -28,8 +32,13 @@ const JobSeekers = (props) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={styles.backButtonView}>
+        <BackButton width={25} height={25} fill={'#17aa90'} />
+      </TouchableOpacity>
       <View>
-        <View style={{ paddingLeft: 10}}>
+        <View style={{ paddingLeft: 10 }}>
           <TouchableOpacity
             onPress={() =>
               Linking.openURL(
@@ -49,12 +58,18 @@ const JobSeekers = (props) => {
           </View>
         </View>
         <View>
-          <FlatList
-            data={person}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-            numColumns={2}
-          />
+          {loading ? (
+            <View style={{ marginVertical: 10 }}>
+              <ActivityIndicator size="large" color="#32475b" />
+            </View>
+          ) : (
+              <FlatList
+                data={person}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={renderItem}
+                numColumns={2}
+              />
+            )}
         </View>
       </View>
     </SafeAreaView>
