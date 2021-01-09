@@ -183,11 +183,11 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                   </Text>
                 </View>
                 <TouchableOpacity
-                  style={{
+                  style={person.twitter_handle !== '' ? {
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginBottom: 15,
-                  }}
+                  }: {display: 'none'}}
                   onPress={() =>
                     Linking.openURL(
                       `https://twitter.com/intent/tweet?text=Hey!%20Here%20my%20find-mentor%20profile&url=https://findmentor.network/peer/${person.slug}`,
@@ -256,23 +256,23 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                     flexDirection: 'row',
                   }}>
                   <TouchableOpacity
-                    style={styles.oneIconView}
+                    style={person.twitter_handle !== '' ? styles.oneIconView : {display: 'none'}}
                     onPress={() => Linking.openURL(person.twitter_handle)}>
                     <Twitter width={40} height={40} />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.oneIconView}
+                    style={person.github !== '' ? styles.oneIconView : {display: 'none'}}
                     onPress={() => Linking.openURL(githubUrl)}>
                     <Github width={40} height={40} />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.oneIconView}
+                    style={person.linkedin !== '' ? styles.oneIconView : {display: 'none'}}
                     onPress={() => Linking.openURL(linkedinUrl)}>
                     <Linkedin width={40} height={40} />
                   </TouchableOpacity>
                 </View>
               </View>
-              <ScrollView style={[styles.box, styles.githubView]}>
+              <ScrollView style={person.github !== '' ? [styles.box, styles.githubView] : {display: 'none'} }>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -284,7 +284,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                   <Text
                     style={[styles.viewHeader, styles.TextColor]}>
                     GitHub
-              </Text>
+                  </Text>
                 </View>
                 <Divider
                   style={{ backgroundColor: styles.TextColor.color, height: 1, marginVertical: 8 }}
@@ -299,7 +299,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                   <Text
                     style={[styles.viewHeader, styles.TextColor]}>
                     Active Mentorships
-              </Text>
+                  </Text>
                 </View>
                 <Divider
                   style={{ backgroundColor: styles.TextColor.color, height: 1, marginVertical: 8 }}

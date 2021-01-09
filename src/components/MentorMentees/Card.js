@@ -51,17 +51,17 @@ const Card = ({ navigation, data, listType = 'mentor' }) => {
         }}>
         <View style={styles.iconView}>
           <TouchableOpacity
-            style={styles.oneIconView}
+            style={twitterUrl !== '' ? styles.oneIconView : {display:'none'}}
             onPress={() => Linking.openURL(twitterUrl)}>
             <Twitter width={26} height={26} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.oneIconView}
+            style={githubUrl !== '' ? styles.oneIconView : {display:'none'}}
             onPress={() => Linking.openURL(githubUrl)}>
             <Github width={26} height={26} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.oneIconView}
+            style={linkedinUrl !== '' ? styles.oneIconView : {display:'none'}}
             onPress={() => Linking.openURL(linkedinUrl)}>
             <Linkedin width={26} height={26} />
           </TouchableOpacity>
