@@ -150,10 +150,10 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
       ) : (
           <ScrollView style={{ flex: 1 }} ref={scrollRef} >
             <View style={{ alignItems: 'center' }}>
-              <View style={[styles.box, styles.infoView]}>
+              <View style={[styles.box, styles.infoView, { borderTopColor: getColor() }]}>
                 <View style={[styles.mmView, { borderColor: getColor() }]}>
                   <Text
-                    style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
+                    style={{ color: getColor(), fontWeight: 'bold', fontSize: 23 }}>
                     {person.mentor === 'Both' || person.mentor === 'İkiside' ? 'Mentor & Mentee' : (person.mentor === 'Mentor' ? 'Mentor' : 'Mentee')}
                   </Text>
                 </View>
@@ -205,7 +205,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                     Share on Twitter
             </Text>
                 </TouchableOpacity>
-                {person.mentor === 'Mentor' || person.mentor === 'Both' ? (
+                {person.mentorships.length > 0 ? (
                   <TouchableOpacity
                     onPress={() => Linking.openURL(person.twitter_handle)}
                     style={{
@@ -290,7 +290,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                   style={{ backgroundColor: styles.TextColor.color, height: 1, marginVertical: 8 }}
                 />
               </ScrollView>
-              <ScrollView style={person.mentor == 'Mentee' ? { display: 'none' } : [styles.box, styles.activeMshipsView]}>
+              <ScrollView style={person.mentorships.length === 0 ? { display: 'none' } : [styles.box, styles.activeMshipsView]}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -371,6 +371,7 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   infoView: {
+    borderTopWidth: 5,
     width: Dimensions.get('window').width / 1.1,
     alignSelf: 'center',
     alignItems: 'center'
