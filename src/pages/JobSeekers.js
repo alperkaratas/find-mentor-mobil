@@ -21,9 +21,9 @@ const JobSeekers = (props) => {
 
   const getPersons = async () => {
     let response = await axios.get('https://findmentor.network/persons.json');
+    setLoading(false)
     let hirePersons = response.data.filter(p => p.isHireable === true);
     setPerson(hirePersons.sort(function (a, b) { return b.contributions.length - a.contributions.length }))
-    setLoading(false)
   };
 
   const renderItem = ({ item }) => (

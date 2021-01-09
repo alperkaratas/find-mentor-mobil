@@ -49,8 +49,8 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
     response.data.forEach(p => {
       if (p.slug === slug) {
         setPerson(p);
-        p.contributions.length === 0 ? setIsContributer(false) : setContributions(p.contributions);
         setLoading(false)
+        p.contributions.length === 0 ? setIsContributer(false) : setContributions(p.contributions);
       }
     });
   };
@@ -60,6 +60,14 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
       setTwitterHtml(resp.data.html)
     }
     )
+
+  const getColor = () => {
+    const mentorColor = '#17aa90';
+    const menteeColor = '#2f6998';
+    const bothColor = '#ffc400';
+
+    return person.mentor === 'Mentee' ? menteeColor : (person.mentor === 'Both' || person.mentor === 'İkiside' ? bothColor : mentorColor)
+  }
 
   const Contributions = () => {
 
@@ -132,258 +140,187 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
         <BackButton
           width={25}
           height={25}
-          fill={
-            person.mentor === 'Mentor' || person.mentor === 'Both' ? '#17aa90' : '#2c7cfe'
-          }
+          fill={getColor()}
         />
       </TouchableOpacity>
       {loading ? (
-        <View style={{marginVertical: 10}}>
-          <ActivityIndicator size="large" color="#32475b"/>
+        <View style={{ marginVertical: 10 }}>
+          <ActivityIndicator size="large" color="#32475b" />
         </View>
       ) : (
-      <ScrollView style={{ flex: 1, backgroundColor: '#222323' }} ref={scrollRef} >
-        <View style={{ alignItems: 'center' }}>
-          <View style={styles.mmView}>
-            {
-              person.mentor === 'Both' ? (
-                <Text
-                  style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
-                  Mentor & Mentee
-                </Text>
-              ) : (
-                <Text
-                  style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
-                  Mentor & Mentee
-                </Text>
-              )
-                ||
-                person.mentor !== 'İkiside' ? (
-                    person.mentor === 'Mentor' ? (
-                      <Text
-                        style={{ color: '#17aa90', fontWeight: 'bold', fontSize: 23 }}>
-                        Mentor
-                      </Text>
-                    ) : (
-                      <Text
-                        style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
-                        Mentor & Mentee
-                      </Text>
+          <ScrollView style={{ flex: 1}} ref={scrollRef} >
+            <View style={{ alignItems: 'center' }}>
+              <View style={[styles.box, styles.infoView]}>
+                <View style={[styles.mmView, { borderColor: getColor() }]}>
+                  <Text
+                    style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
+                    {person.mentor === 'Both' || person.mentor === 'İkiside' ? 'Mentor & Mentee' : (person.mentor === 'Mentor' ? 'Mentor' : 'Mentee')}
+                  </Text>
+                </View>
+                <View
+                  style={[styles.avatarView, { borderColor: getColor() }]
+                  }
+                >
+                  <Avatar
+                    rounded
+                    source={{
+                      uri: person.avatar,
+                    }}
+                    size="xlarge"
+                  />
+                </View>
+                <View style={styles.nameView}>
+                  <Text style={styles.nameText}>{person.name}</Text>
+                  <Divider
+                    style={{ backgroundColor: 'white', height: 1, marginVertical: 5 }}
+                  />
+                </View>
+                <View style={person.isHireable === true ? [styles.hireMe, { backgroundColor: getColor() }] : { display: 'none' }}>
+                  <Text style={styles.hireMeText}>
+                    Hire Me
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 15,
+                  }}
+                  onPress={() =>
+                    Linking.openURL(
+                      `https://twitter.com/intent/tweet?text=Hey!%20Here%20my%20find-mentor%20profile&url=https://findmentor.network/peer/${person.slug}`,
                     )
-
-                      ||
-
-                      person.mentor === 'Mentee' ? (
-                          <Text
-                            style={{ color: '#2f6998', fontWeight: 'bold', fontSize: 23 }}>
-                            Mentee
-                          </Text>
-                        ) : (
-                          <Text
-                            style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
-                            Mentor & Mentee
-                          </Text>
-                        )
-                  ) : (
-                    <Text
-                      style={{ color: '#ffc400', fontWeight: 'bold', fontSize: 23 }}>
-                      Mentor & Mentee
-                    </Text>
-                  )
-            }
-          </View>
-          <View
-            style={
-              person.mentor === 'Both' ? {
-                marginVertical: 20,
-                borderWidth: 2,
-                borderRadius: 100,
-                borderColor: '#ffc400'
-              } : styles.avatarView
-
-                ||
-
-                person.mentor !== 'İkiside' ? (
-                    person.mentor === 'Mentor' ? {
-                      marginVertical: 20,
-                      borderWidth: 2,
-                      borderRadius: 100,
-                      borderColor: '#17aa90'
-                    } : styles.avatarView
-
-                      ||
-
-                      person.mentor === 'Mentee' ? {
-                          marginVertical: 20,
-                          borderWidth: 2,
-                          borderRadius: 100,
-                          borderColor: '#2f6998'
-                        } : styles.avatarView
-
-                  ) : styles.avatarView
-            }
-          >
-            <Avatar
-              rounded
-              source={{
-                uri: person.avatar,
-              }}
-              size="xlarge"
-            />
-          </View>
-          <View style={styles.nameView}>
-            <Text style={styles.nameText}>{person.name}</Text>
-            <Divider
-              style={{ backgroundColor: 'white', height: 1, marginVertical: 5 }}
-            />
-          </View>
-          <View style={person.isHireable === true ? [styles.hireMe, { backgroundColor: person.mentor === 'Mentee' ? '#2f6998' : (person.mentor === 'Both' || person.mentor === 'İkiside' ? '#ffc400' : '#17aa90') }] : { display: 'none' }}>
-            <Text style={styles.hireMeText}>
-              Hire Me
-              </Text>
-          </View>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 15,
-            }}
-            onPress={() =>
-              Linking.openURL(
-                `https://twitter.com/intent/tweet?text=Hey!%20Here%20my%20find-mentor%20profile&url=https://findmentor.network/peer/${person.slug}`,
-              )
-            }>
-            <View style={{ marginRight: 10 }}>
-              <ShareTwitter width={30} height={30} />
-            </View>
-            <Text
-              style={{
-                fontSize: 20,
-                color: '#2c7cfe',
-                fontWeight: '600',
-              }}>
-              Share on Twitter
+                  }>
+                  <View style={{ marginRight: 10 }}>
+                    <ShareTwitter width={30} height={30} />
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: '#2c7cfe',
+                      fontWeight: '600',
+                    }}>
+                    Share on Twitter
             </Text>
-          </TouchableOpacity>
-          {person.mentor === 'Mentor' || person.mentor === 'Both' ? (
-            <TouchableOpacity
-              onPress={() => Linking.openURL(person.twitter_handle)}
-              style={{
-                backgroundColor: '#fdc405',
-                padding: 10,
-                borderRadius: 5,
-              }}>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}>
-                <Question
-                  style={{ marginRight: 10 }}
-                  width={25}
-                  height={25}
-                  fill={'#222323'}
-                />
-                <Text
-                  style={{ fontSize: 17, fontWeight: '600', color: '#222323' }}>
-                  Ask for a mentorship project
+                </TouchableOpacity>
+                {person.mentor === 'Mentor' || person.mentor === 'Both' ? (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(person.twitter_handle)}
+                    style={{
+                      backgroundColor: '#fdc405',
+                      padding: 10,
+                      borderRadius: 5,
+                    }}>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                      }}>
+                      <Question
+                        style={{ marginRight: 10 }}
+                        width={25}
+                        height={25}
+                        fill={'#222323'}
+                      />
+                      <Text
+                        style={{ fontSize: 17, fontWeight: '600', color: '#222323' }}>
+                        Ask for a mentorship project
                 </Text>
+                    </View>
+                  </TouchableOpacity>
+                ) : null}
+                <View style={styles.interestView}>
+                  <Text
+                    style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
+                    Interests:{' '}
+                  </Text>
+                  <Text style={{ color: '#23272b' }}>{person.interests}</Text>
+                </View>
+                <View style={styles.goalsView}>
+                  <Text
+                    style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
+                    Goals:{' '}
+                  </Text>
+                  <Text style={{ color: '#23272b' }}>{person.goals}</Text>
+                </View>
+                <View
+                  style={{
+                    alignSelf: 'center',
+                    flexDirection: 'row',
+                  }}>
+                  <TouchableOpacity
+                    style={styles.oneIconView}
+                    onPress={() => Linking.openURL(person.twitter_handle)}>
+                    <Twitter width={40} height={40} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.oneIconView}
+                    onPress={() => Linking.openURL(githubUrl)}>
+                    <Github width={40} height={40} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.oneIconView}
+                    onPress={() => Linking.openURL(linkedinUrl)}>
+                    <Linkedin width={40} height={40} />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </TouchableOpacity>
-          ) : null}
-          <ScrollView style={styles.infoView}>
-            <View style={styles.interestView}>
-              <Text
-                style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
-                Interests:{' '}
+              <ScrollView style={[styles.box, styles.githubView]}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <View style={{ marginRight: 10 }}>
+                    <Github width={35} height={35} />
+                  </View>
+                  <Text
+                    style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
+                    GitHub
               </Text>
-              <Text style={{ color: '#23272b' }}>{person.interests}</Text>
-            </View>
-            <View style={styles.goalsView}>
-              <Text
-                style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
-                Goals:{' '}
+                </View>
+                <Divider
+                  style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
+                />
+              </ScrollView>
+              <ScrollView style={person.mentor == 'Mentee' ? { display: 'none' } : [ styles.box, styles.activeMshipsView]}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
+                    Active Mentorships
               </Text>
-              <Text style={{ color: '#23272b' }}>{person.goals}</Text>
-            </View>
-            <View
-              style={{
-                alignSelf: 'center',
-                flexDirection: 'row',
-              }}>
-              <TouchableOpacity
-                style={styles.oneIconView}
-                onPress={() => Linking.openURL(person.twitter_handle)}>
-                <Twitter width={40} height={40} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.oneIconView}
-                onPress={() => Linking.openURL(githubUrl)}>
-                <Github width={40} height={40} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.oneIconView}
-                onPress={() => Linking.openURL(linkedinUrl)}>
-                <Linkedin width={40} height={40} />
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-          <ScrollView style={styles.githubView}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View style={{ marginRight: 10 }}>
-                <Github width={35} height={35} />
+                </View>
+                <Divider
+                  style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
+                />
+              </ScrollView>
+              <View style={isContributer ? [styles.box, styles.contView] : { display: 'none' }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
+                    Contributed
+              </Text>
+                </View>
+                <Divider
+                  style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
+                />
+                <View>
+                  <Contributions />
+                </View>
               </View>
-              <Text
-                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
-                GitHub
-              </Text>
-            </View>
-            <Divider
-              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
-            />
-          </ScrollView>
-          <ScrollView style={person.mentor == 'Mentee' ? { display: 'none' } : styles.activeMshipsView}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
-                Active Mentorships
-              </Text>
-            </View>
-            <Divider
-              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
-            />
-          </ScrollView>
-          <View style={isContributer ? styles.contView : { display: 'none' }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
-                Contributed
-              </Text>
-            </View>
-            <Divider
-              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
-            />
-            <View>
-              <Contributions />
-            </View>
-          </View>
-          <ScrollView style={person.twitter_handle !== "" ? styles.tweetsView : { display: 'none' }}>
-            <WebView source={{
-              html:
-                `<!DOCTYPE html>\
+              <ScrollView style={person.twitter_handle !== "" ? [styles.box, styles.tweetsView] : { display: 'none' }}>
+                <WebView source={{
+                  html:
+                    `<!DOCTYPE html>\
                 <html>\
                   <head>\
                     <meta charset="utf-8">\
@@ -394,18 +331,18 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                       ${twitterHtml}\
                     </body>\
                 </html>`
-            }} style={{
-              flex: 1,
-              width: styles.tweetsView.width,
-              height: styles.tweetsView.height,
-              border: styles.tweetsView.borderRadius
-            }} />
-          </ScrollView>
-          <View style={styles.qrCodeView}>
-            <QRCode size={210} value={qrValue} />
-          </View>
-        </View>
-      </ScrollView>)}
+                }} style={{
+                  flex: 1,
+                  width: styles.tweetsView.width,
+                  height: styles.tweetsView.height,
+                  border: styles.tweetsView.borderRadius
+                }} />
+              </ScrollView>
+              <View style={[styles.qrCodeView, styles.box]}>
+                <QRCode size={210} value={qrValue} />
+              </View>
+            </View>
+          </ScrollView>)}
     </SafeAreaView>
   );
 };
@@ -413,8 +350,46 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
+    alignItems: 'center'
+  },
+  box: {
+    backgroundColor: 'white',
+    padding: 15,
+    margin: 20,
+    marginHorizontal: 3,
+    borderRadius: 5,
+    shadowColor: '#dcdcdc',
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 5
+  },
+  infoView: {
+    width: Dimensions.get('window').width / 1.1,
+    alignSelf: 'center',
+    alignItems: 'center'
+  },
+  githubView: {
+    width: Dimensions.get('window').width / 1.1,
+    height: Dimensions.get('window').height / 2.5,
+  },
+  activeMshipsView: {
+    width: Dimensions.get('window').width / 1.1,
+    height: Dimensions.get('window').height / 2.2
+  },
+  contView: {
+    display: 'flex',
+    width: Dimensions.get('window').width / 1.1
+  },
+  tweetsView: {
+    width: Dimensions.get('window').width / 1.1,
+    height: Dimensions.get('window').height / 1.45,
+    padding: 0
+  },
+  qrCodeView: {
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#222323',
+    width: Dimensions.get('window').width / 1.1,
+    height: Dimensions.get('window').height / 2.5,
   },
   buttonView: {
     alignSelf: 'flex-start',
@@ -425,7 +400,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     borderWidth: 2,
     borderRadius: 100,
-    borderColor: 'white',
   },
   nameView: {
     marginBottom: 15,
@@ -436,9 +410,8 @@ const styles = StyleSheet.create({
     fontSize: 23,
   },
   mmView: {
-    borderWidth: 0.5,
+    borderWidth: 2,
     padding: 10,
-    borderColor: 'white',
     borderRadius: 5,
   },
   mmText: {
@@ -446,68 +419,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 23,
   },
-  infoView: {
-    borderRadius: 5,
-    borderWidth: 0.5,
-    padding: 15,
-    marginHorizontal: 3,
-    width: Dimensions.get('window').width / 1.1,
-    backgroundColor: 'white',
-    margin: 20,
+  interestView: { 
+    marginVertical: 7,
+    alignSelf: 'flex-start'
   },
-  githubView: {
-    borderRadius: 5,
-    borderWidth: 0.5,
-    padding: 15,
-    marginHorizontal: 3,
-    width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 2.5,
-    backgroundColor: 'white',
-    margin: 20,
+  goalsView: { 
+    marginVertical: 7, 
+    marginBottom: 13 
   },
-  activeMshipsView: {
-    borderRadius: 5,
-    borderWidth: 0.5,
-    padding: 15,
-    marginHorizontal: 3,
-    width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 2.2,
-    backgroundColor: 'white',
-    margin: 20,
-  },
-  contView: {
-    display: 'flex',
-    borderRadius: 5,
-    borderWidth: 0.5,
-    padding: 15,
-    marginHorizontal: 3,
-    width: Dimensions.get('window').width / 1.1,
-    backgroundColor: 'white',
-    margin: 20,
-  },
-  tweetsView: {
-    borderRadius: 5,
-    borderWidth: 0.5,
-    marginHorizontal: 3,
-    width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 1.45,
-    backgroundColor: 'white',
-    margin: 20
-  },
-  interestView: { marginVertical: 7 },
-  goalsView: { marginVertical: 7, marginBottom: 13 },
   oneIconView: {
     marginHorizontal: 20,
-  },
-  qrCodeView: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    borderWidth: 0.5,
-    marginVertical: 30,
-    backgroundColor: 'white',
-    width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 2.5,
   },
   hireMe: {
     width: 110,

@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   hireMeText: {
+    fontWeight: 'bold',
     textAlign: 'center',
     color: '#fff',
     fontSize: 14
