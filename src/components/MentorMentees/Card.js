@@ -8,10 +8,10 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {Avatar} from 'react-native-elements';
-import {Github, Linkedin, Twitter} from '../SVGR-Components';
+import { Avatar } from 'react-native-elements';
+import { Github, Linkedin, Twitter } from '../SVGR-Components';
 
-const Card = ({navigation, data, listType = 'mentor'}) => {
+const Card = ({ navigation, data, listType = 'mentor' }) => {
   const twitterUrl = data.twitter_handle;
   const githubUrl = data.github;
   const linkedinUrl = data.linkedin;
@@ -51,17 +51,17 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
         }}>
         <View style={styles.iconView}>
           <TouchableOpacity
-            style={styles.oneIconView}
+            style={twitterUrl !== '' ? styles.oneIconView : {display:'none'}}
             onPress={() => Linking.openURL(twitterUrl)}>
             <Twitter width={26} height={26} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.oneIconView}
+            style={githubUrl !== '' ? styles.oneIconView : {display:'none'}}
             onPress={() => Linking.openURL(githubUrl)}>
             <Github width={26} height={26} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.oneIconView}
+            style={linkedinUrl !== '' ? styles.oneIconView : {display:'none'}}
             onPress={() => Linking.openURL(linkedinUrl)}>
             <Linkedin width={26} height={26} />
           </TouchableOpacity>
@@ -77,7 +77,7 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
           <Text
             numberOfLines={2}
             ellipsizeMode="tail"
-            style={{...styles.nameStyle, color: getBorderTopColor()}}>
+            style={{ ...styles.nameStyle, color: getBorderTopColor() }}>
             {data.name}
           </Text>
         </View>
@@ -93,6 +93,11 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
             </Text>
           </View>
         )}
+        <View style={data.isHireable === true ? [styles.hireMe, { borderColor: getBorderTopColor()}] : { display: 'none' }}>
+          <Text style={[ styles.hireMeText, { color: getBorderTopColor()  } ]}>
+            Hire Me
+              </Text>
+        </View>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -100,9 +105,9 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
 
 const styles = StyleSheet.create({
   cardView: {
-    marginHorizontal: 10,
-    backgroundColor: '#222323',
-    marginVertical: 15,
+    marginLeft: 12,
+    backgroundColor: '#fff',
+    marginVertical: 6,
     alignSelf: 'center',
     width: Dimensions.get('window').width / 2.2,
     height: 300,
@@ -140,6 +145,19 @@ const styles = StyleSheet.create({
   goalsText: {
     color: '#898989',
   },
+  hireMe: {
+    width: 80,
+    borderWidth: 1, 
+    borderRadius: 5,
+    padding: 5,
+    marginBottom: 15
+  },
+  hireMeText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 14
+  }
 });
 
-export {Card};
+export { Card };

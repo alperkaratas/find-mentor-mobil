@@ -23,8 +23,8 @@ const Mentees = (props) => {
 
   const getPersons = async () => {
     let response = await axios.get('https://findmentor.network/persons.json');
-    setPerson(response.data.filter((x) => x.mentor !== 'Mentor'));
     setLoading(false);
+    setPerson(response.data.filter((x) => x.mentor !== 'Mentor'));
   };
 
   const renderItem = ({item}) => (
@@ -55,7 +55,7 @@ const Mentees = (props) => {
 
       {loading ? (
         <View style={{marginVertical: 10}}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#32475b"/>
         </View>
       ) : (
         <View style={{flex: 1}}>

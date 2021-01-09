@@ -24,8 +24,8 @@ const Mentors = (props) => {
 
   const getPersons = async () => {
     let response = await axios.get('https://findmentor.network/persons.json');
-    setPerson(response.data.filter((x) => x.mentor !== 'Mentee'));
     setLoading(false);
+    setPerson(response.data.filter((x) => x.mentor !== 'Mentee'));
     var count = Object.keys('mentors' + person).length;
     console.log('mentors' + count);
   };
@@ -60,7 +60,7 @@ const Mentors = (props) => {
       </View>
       {loading ? (
         <View style={{marginVertical: 10}}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#32475b"/>
         </View>
       ) : (
         <View style={{flex: 1}}>
