@@ -15,6 +15,7 @@ import QRCode from 'react-native-qrcode-svg';
 import { Avatar } from 'react-native-elements';
 import { BackButton } from '../components/SVGR-Components';
 import { Divider } from 'react-native-elements';
+import WebView from 'react-native-webview'
 
 import {
   Github,
@@ -30,15 +31,16 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
   const [person, setPerson] = useState({});
   const [contributions, setContributions] = useState([{}]);
   const [isContributer, setIsContributer] = useState(true);
+  const [twitterHtml, setTwitterHtml] = useState(''); // twitter timeline html
 
   useEffect(() => {
     getPersonInfo(route.params.slug);
+
   }, []);
 
   const linkedinUrl = person.linkedin;
   const qrValue = `https://findmentor.network/peer/${person.slug}`;
   const githubUrl = person.github;
-  const twitterUrl = person.twitter_handle;
   const scrollRef = useRef();
 
   const getPersonInfo = async (slug) => {
@@ -51,6 +53,12 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
       }
     });
   };
+
+  axios.get(`https://publish.twitter.com/oembed?url=${person.twitter_handle}`)
+    .then(resp => {
+      setTwitterHtml(resp.data.html)
+    }
+    )
 
   const Contributions = () => {
 
@@ -292,7 +300,6 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               style={{
                 alignSelf: 'center',
                 flexDirection: 'row',
-                marginBottom: 40,
               }}>
               <TouchableOpacity
                 style={styles.oneIconView}
@@ -362,28 +369,24 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               <Contributions />
             </View>
           </View>
-          <ScrollView style={styles.tweetsView}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View style={{ marginRight: 10 }}>
-                <ShareTwitter width={35} height={35} />
-              </View>
-              <Text
-                style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
-                Tweets
-              </Text>
-            </View>
-            <Divider
-              style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
-            />
-            <View>
-              <Text>
-                {twitterUrl}
-              </Text>
-            </View>
+          <ScrollView style={ person.twitter_handle !== "" ? styles.tweetsView : { display: 'none' } }>
+            <WebView source={{
+              html:
+                `<!DOCTYPE html>\
+                <html>\
+                  <head>\
+                    <meta charset="utf-8">\
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+                    </head>\
+                    <body>\
+                      ${twitterHtml}\
+                    </body>\
+                </html>`
+            }} style={{
+              flex: 1,
+              width: styles.tweetsView.width,
+              height: styles.tweetsView.height
+            }} />
           </ScrollView>
           <View style={styles.qrCodeView}>
             <QRCode size={210} value={qrValue} />
@@ -472,15 +475,14 @@ const styles = StyleSheet.create({
   tweetsView: {
     borderRadius: 5,
     borderWidth: 0.5,
-    padding: 15,
     marginHorizontal: 3,
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 2,
+    height: Dimensions.get('window').height / 1.6,
     backgroundColor: 'white',
-    margin: 20,
+    margin: 20
   },
   interestView: { marginVertical: 7 },
-  goalsView: { marginVertical: 7, marginBottom: 35 },
+  goalsView: { marginVertical: 7, marginBottom: 13 },
   oneIconView: {
     marginHorizontal: 20,
   },
