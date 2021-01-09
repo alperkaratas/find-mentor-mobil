@@ -477,7 +477,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     marginHorizontal: 3,
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 1.6,
+    height: Dimensions.get('window').height / 1.45,
     backgroundColor: 'white',
     margin: 20
   },
