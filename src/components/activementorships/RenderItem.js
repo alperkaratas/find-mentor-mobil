@@ -2,38 +2,34 @@ import React from 'react';
 import {
   View,
   Text,
+  Linking,
   TouchableOpacity,
   StyleSheet,
-  Dimensions
+  Dimensions,
 } from 'react-native';
-import axios from 'axios';
 
 const RenderItem = (props) => {
-  
-  const goToDetail = async () => {
-    var mentorSlug = props.data.mentor.replace('https://findmentor.network/peer/', '');// get slug from props
-    let user={};
-    let response = await axios.get('https://findmentor.network/persons.json');
-    let filtered = response.data.filter((x) => x.mentor !== 'Mentee')
-    
-    filtered.forEach(m => { // get slug from persons.js
-      if( m.slug === mentorSlug ){
-        user = m;
-        return;
-      }
-    });
 
-    if(!(filtered.length === 1 && filtered[0] == ''))
-      props.navigation.navigate('MMDetail', {
-        slug: user.slug
-      })
-  }
   return (
     <View style={styles.box}>
-      <TouchableOpacity onPress={ goToDetail }>
-      <Text style={styles.header}>{ props.data.slug }</Text>
-      <Text>{ props.data.goal }</Text>
-      </TouchableOpacity>
+      <Text style={styles.header}>{props.data.slug}</Text>
+      <Text>{props.data.goal}</Text>
+      <View style={{ marginTop: 15, flexDirection: 'row' }}>
+        <Text>➡️ Visit</Text>
+        <TouchableOpacity onPress={() => {
+          props.navigation.navigate('MMDetail', {
+            slug: props.data.mentor.replace('https://findmentor.network/peer/', '')
+          })
+        }}>
+          <Text style={{ color: '#047bfe', fontSize: 15 }}> Mentor Profile</Text>
+        </TouchableOpacity>
+        <Text> and </Text>
+        <TouchableOpacity onPress={() => {
+          Linking.openURL(props.data.project_adress)
+        }}>
+          <Text style={{ color: '#047bfe', fontSize: 15 }}>Project repo</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -50,13 +46,13 @@ const styles = StyleSheet.create({
     shadowColor: '#dcdcdc',
     shadowOpacity: 0.25,
     shadowRadius: 3,
-    elevation: 5
+    elevation: 5,
   },
-  header:{
+  header: {
     fontSize: 20,
     fontWeight: 'bold',
-    textTransform: 'uppercase'
-  }
+    textTransform: 'uppercase',
+  },
 });
 
-export {RenderItem};
+export { RenderItem };

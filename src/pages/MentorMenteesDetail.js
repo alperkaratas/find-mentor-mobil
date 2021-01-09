@@ -15,7 +15,6 @@ import QRCode from 'react-native-qrcode-svg';
 import { Avatar } from 'react-native-elements';
 import { BackButton } from '../components/SVGR-Components';
 import { Divider } from 'react-native-elements';
-import { WebView } from 'react-native-webview'
 
 import {
   Github,
@@ -31,7 +30,6 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
   const [person, setPerson] = useState({});
   const [contributions, setContributions] = useState([{}]);
   const [isContributer, setIsContributer] = useState(true);
-  const [tweetHtml, setTweetHtml] = useState('');
 
   useEffect(() => {
     getPersonInfo(route.params.slug);
@@ -40,7 +38,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
   const linkedinUrl = person.linkedin;
   const qrValue = `https://findmentor.network/peer/${person.slug}`;
   const githubUrl = person.github;
-
+  const twitterUrl = person.twitter_handle;
   const scrollRef = useRef();
 
   const getPersonInfo = async (slug) => {
@@ -53,31 +51,6 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
       }
     });
   };
-  //console.warn(person.twitter_handle)
-
-  const getTweet = async () => {
-    //console.warn(person.twitter_handle)
-    await axios.get(`https://publish.twitter.com/oembed?url=${person.twitter_handle}`).then(
-      resp => {
-        //console.warn(resp)
-        resp.json().then(json => {
-          //console.warn(json.html)
-          setTweetHtml(`<!DOCTYPE html>\
-        <html>\
-          <head>\
-            <meta charset="utf-8">\
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">\
-            </head>\
-            <body>\
-              ${json.html}\
-            </body>\
-        </html>`)
-        })
-      }
-    ).catch(err => {
-      //console.warn(err)
-    })
-  }
 
   const Contributions = () => {
 
@@ -408,12 +381,8 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
             />
             <View>
               <Text>
-                {tweetHtml}
+                {twitterUrl}
               </Text>
-              {/* <WebView
-                source={{ html: tweetHtml }}
-                style={{ marginTop: 20 , height: 350 }}
-              /> */}
             </View>
           </ScrollView>
           <View style={styles.qrCodeView}>
