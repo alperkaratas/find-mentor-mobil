@@ -42,15 +42,7 @@ const Card = ({navigation, data, listType = 'mentor'}) => {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate('MMDetail', {
-            name: data.name,
-            interests: data.interests,
-            goals: data.goals,
-            avatar: data.avatar,
-            mentor: data.mentor,
-            slug: data.slug,
-            twitter_handle: data.twitter_handle,
-            github: data.github,
-            linkedin: data.linkedin,
+            slug: data.slug
           })
         }
         style={{
