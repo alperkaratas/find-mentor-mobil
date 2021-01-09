@@ -49,7 +49,6 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
       if (p.slug === slug) {
         setPerson(p);
         p.contributions.length === 0 ? setIsContributer(false) : setContributions(p.contributions);
-
       }
     });
   };
@@ -231,6 +230,11 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               style={{ backgroundColor: 'white', height: 1, marginVertical: 5 }}
             />
           </View>
+          <View style={person.isHireable === true ? [styles.hireMe, { backgroundColor: person.mentor === 'Mentee' ? '#2f6998' : (person.mentor === 'Both' || person.mentor === 'İkiside' ? '#ffc400' : '#17aa90') }] : { display: 'none' }}>
+            <Text style={styles.hireMeText}>
+              Hire Me
+              </Text>
+          </View>
           <TouchableOpacity
             style={{
               flexDirection: 'row',
@@ -369,7 +373,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
               <Contributions />
             </View>
           </View>
-          <ScrollView style={ person.twitter_handle !== "" ? styles.tweetsView : { display: 'none' } }>
+          <ScrollView style={person.twitter_handle !== "" ? styles.tweetsView : { display: 'none' }}>
             <WebView source={{
               html:
                 `<!DOCTYPE html>\
@@ -379,13 +383,15 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">\
                     </head>\
                     <body>\
+                      <div style="border-radius: $border-radius: 5px;">
                       ${twitterHtml}\
                     </body>\
                 </html>`
             }} style={{
               flex: 1,
               width: styles.tweetsView.width,
-              height: styles.tweetsView.height
+              height: styles.tweetsView.height,
+              border: styles.tweetsView.borderRadius
             }} />
           </ScrollView>
           <View style={styles.qrCodeView}>
@@ -496,6 +502,17 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 1.1,
     height: Dimensions.get('window').height / 2.5,
   },
+  hireMe: {
+    width: 110,
+    borderRadius: 5,
+    padding: 5,
+    marginBottom: 15
+  },
+  hireMeText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 23
+  }
 });
 
 export { MentorMenteesDetail };
