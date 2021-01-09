@@ -12,3 +12,5 @@ export * from './JoinNowAddUser';
 export * from './ShareTwitter';
 export * from './Question';
 export * from './EventIcon';
+export * from './Job';
+export * from './JobSeeker';

@@ -53,6 +53,13 @@ const WelcomePage = (props) => {
         <View style={styles.discordTextView}>
           <Text>You can join this channel to communicate with each other.</Text>
         </View>
+        <View style={{marginVertical: 5}}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('JobTabs')}
+            style={styles.jobsButton}>
+            <Text style={styles.jobsText}>Jobs</Text>
+          </TouchableOpacity>
+        </View>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={() => Linking.openURL(joinNow)}
@@ -90,7 +97,7 @@ const styles = StyleSheet.create({
   },
   iconView: {
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   iconStyle: {
     width: Dimensions.get('window').width / 9,
@@ -103,17 +110,17 @@ const styles = StyleSheet.create({
   },
   discordView: {
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 2.4,
+    height: Dimensions.get('window').height / 2.8,
     alignContent: 'center',
     alignSelf: 'center',
-    marginVertical: 30,
+    marginVertical: 22,
   },
   webView: {
     borderRadius: 10,
   },
   discordTextView: {
     marginHorizontal: 5,
-    marginBottom: 25,
+    marginBottom: 15,
   },
   joinButton: {
     marginHorizontal: 15,
@@ -139,10 +146,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#17aa92',
     borderColor: '#17aa92',
   },
+  jobsButton: {
+    marginBottom: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: Dimensions.get('window').width / 2,
+    height: Dimensions.get('window').height / 15,
+    borderWidth: 1,
+    padding: 12,
+    borderRadius: 50,
+    backgroundColor: '#17aa92',
+    borderColor: '#17aa92',
+  },
   buttonText: {
     fontWeight: 'bold',
     color: 'white',
     fontSize: 20,
+  },
+  jobsText: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 23,
   },
 });
 
