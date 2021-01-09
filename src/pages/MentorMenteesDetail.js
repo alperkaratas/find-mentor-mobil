@@ -111,10 +111,10 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
 
     const renderItem = ({ item }) => (
       <View style={{ marginBottom: 10 }}>
-        <Text style={{ fontSize: 18, fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 3 }}>
+        <Text style={[{ fontSize: 18, fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 3 }, styles.TextColor]}>
           {item.slug}
         </Text>
-        <Text style={{ textAlign: 'justify' }}>
+        <Text style={[{ textAlign: 'justify' }, styles.TextColor]}>
           {item.goal}
         </Text>
         <ContributerImages data={item.contributors} />
@@ -148,7 +148,7 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
           <ActivityIndicator size="large" color="#32475b" />
         </View>
       ) : (
-          <ScrollView style={{ flex: 1}} ref={scrollRef} >
+          <ScrollView style={{ flex: 1 }} ref={scrollRef} >
             <View style={{ alignItems: 'center' }}>
               <View style={[styles.box, styles.infoView]}>
                 <View style={[styles.mmView, { borderColor: getColor() }]}>
@@ -170,9 +170,11 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                   />
                 </View>
                 <View style={styles.nameView}>
-                  <Text style={styles.nameText}>{person.name}</Text>
+                  <Text style={[styles.nameText, styles.TextColor]}>
+                    {person.name}
+                  </Text>
                   <Divider
-                    style={{ backgroundColor: 'white', height: 1, marginVertical: 5 }}
+                    style={{ backgroundColor: styles.TextColor.color, height: 1, marginVertical: 5 }}
                   />
                 </View>
                 <View style={person.isHireable === true ? [styles.hireMe, { backgroundColor: getColor() }] : { display: 'none' }}>
@@ -221,10 +223,10 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                         style={{ marginRight: 10 }}
                         width={25}
                         height={25}
-                        fill={'#222323'}
+                        fill={styles.box.backgroundColor}
                       />
                       <Text
-                        style={{ fontSize: 17, fontWeight: '600', color: '#222323' }}>
+                        style={{ fontSize: 17, fontWeight: '600', color: styles.box.backgroundColor }}>
                         Ask for a mentorship project
                 </Text>
                     </View>
@@ -232,17 +234,21 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                 ) : null}
                 <View style={styles.interestView}>
                   <Text
-                    style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
+                    style={[styles.viewHeader, styles.TextColor]}>
                     Interests:{' '}
                   </Text>
-                  <Text style={{ color: '#23272b' }}>{person.interests}</Text>
+                  <Text style={styles.TextColor}>
+                    {person.interests}
+                  </Text>
                 </View>
                 <View style={styles.goalsView}>
                   <Text
-                    style={{ color: '#22262a', fontSize: 20, fontWeight: 'bold' }}>
+                    style={[styles.viewHeader, styles.TextColor]}>
                     Goals:{' '}
                   </Text>
-                  <Text style={{ color: '#23272b' }}>{person.goals}</Text>
+                  <Text style={styles.TextColor}>
+                    {person.goals}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -276,27 +282,27 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                     <Github width={35} height={35} />
                   </View>
                   <Text
-                    style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
+                    style={[styles.viewHeader, styles.TextColor]}>
                     GitHub
               </Text>
                 </View>
                 <Divider
-                  style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
+                  style={{ backgroundColor: styles.TextColor.color, height: 1, marginVertical: 8 }}
                 />
               </ScrollView>
-              <ScrollView style={person.mentor == 'Mentee' ? { display: 'none' } : [ styles.box, styles.activeMshipsView]}>
+              <ScrollView style={person.mentor == 'Mentee' ? { display: 'none' } : [styles.box, styles.activeMshipsView]}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
                   <Text
-                    style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
+                    style={[styles.viewHeader, styles.TextColor]}>
                     Active Mentorships
               </Text>
                 </View>
                 <Divider
-                  style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
+                  style={{ backgroundColor: styles.TextColor.color, height: 1, marginVertical: 8 }}
                 />
               </ScrollView>
               <View style={isContributer ? [styles.box, styles.contView] : { display: 'none' }}>
@@ -306,12 +312,12 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
                     alignItems: 'center',
                   }}>
                   <Text
-                    style={{ fontSize: 25, fontWeight: 'bold', color: '#22262a' }}>
+                    style={[styles.viewHeader, styles.TextColor]}>
                     Contributed
               </Text>
                 </View>
                 <Divider
-                  style={{ backgroundColor: '#d6d6d6', height: 1, marginVertical: 8 }}
+                  style={{ backgroundColor: styles.TextColor.color, height: 1, marginVertical: 8 }}
                 />
                 <View>
                   <Contributions />
@@ -349,11 +355,12 @@ const MentorMenteesDetail = ({ route, navigation, props }) => {
 
 const styles = StyleSheet.create({
   mainView: {
+    backgroundColor: '#f1f1f1',
     flex: 1,
     alignItems: 'center'
   },
   box: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     padding: 15,
     margin: 20,
     marginHorizontal: 3,
@@ -391,6 +398,13 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 1.1,
     height: Dimensions.get('window').height / 2.5,
   },
+  viewHeader: {
+    fontSize: 25,
+    fontWeight: 'bold'
+  },
+  TextColor: {
+    color: '#212529'
+  },
   buttonView: {
     alignSelf: 'flex-start',
     marginHorizontal: 20,
@@ -405,7 +419,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   nameText: {
-    color: 'white',
+    color: '#000',
     fontWeight: 'bold',
     fontSize: 23,
   },
@@ -415,17 +429,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   mmText: {
-    color: 'white',
+    color: '#000',
     fontWeight: 'bold',
     fontSize: 23,
   },
-  interestView: { 
+  interestView: {
     marginVertical: 7,
     alignSelf: 'flex-start'
   },
-  goalsView: { 
-    marginVertical: 7, 
-    marginBottom: 13 
+  goalsView: {
+    marginVertical: 7,
+    marginBottom: 13
   },
   oneIconView: {
     marginHorizontal: 20,
