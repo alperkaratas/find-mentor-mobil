@@ -30,7 +30,7 @@ const Founders = () => {
       'https://findmentor.network/activeMentorships.json',
     );
     setContributors(response.data.mentorships[0].contributors);
-    setMobileContributors(response.data.mentorships[10].contributors); //burası düzenlenecek.
+    setMobileContributors(response.data.mentorships[9].contributors); //burası düzenlenecek.
   };
 
   getFounders();
