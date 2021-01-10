@@ -43,7 +43,7 @@ curl https://findmentor.network/activeMentorships.json
 
 ## Current Screenshots
 
-<img height="470" width="220" alt="HomePage" src="./screen-shots/main.png"/>  <img height="470" width="220" alt="HomePage" src="./screen-shots/active-mentorships.png"/>  <img height="470" width="220" alt="HomePage" src="./screen-shots/jobSeekers.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentors.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentees.png"/>
+<img height="470" width="220" alt="HomePage" src="./screen-shots/main.png"/>  <img height="470" width="220" alt="HomePage" src="./screen-shots/active-mentorships.png"/>  <img height="470" width="220" alt="HomePage" src="./screen-shots/jobSeekers.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentors.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentor-profile.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentees.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentee-profile.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentee-profile1.png"/> <img height="470" width="220" alt="HomePage" src="./screen-shots/mentee-profile2.png"/>
 
 ---
 
