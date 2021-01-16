@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
   link: {
     color: '#007bff',
     position: 'relative',
-    top: 4
+    top: 4,
+    fontWeight: 'bold'
   },
   eventBox: {
     width: Dimensions.get('window').width / 1.05,

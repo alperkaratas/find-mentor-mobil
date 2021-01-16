@@ -7,3 +7,4 @@ export * from './MentorMenteesDetail';
 export * from './Events';
 export * from './Jobs';
 export * from './JobSeekers';
+export * from './JobDetail';

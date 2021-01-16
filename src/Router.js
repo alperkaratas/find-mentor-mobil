@@ -14,6 +14,7 @@ import {
   Events,
   Jobs,
   JobSeekers,
+  JobDetail
 } from './pages';
 import {
   HomeIcon,
@@ -110,6 +111,7 @@ const Router = () => {
             component={ActiveMentorships}
           />
           <Stack.Screen name="JobTabs" component={JobsTab} />
+          <Stack.Screen name="JobDetail" component={JobDetail} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
