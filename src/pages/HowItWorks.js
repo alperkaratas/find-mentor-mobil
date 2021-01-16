@@ -23,20 +23,25 @@ const Link = (props) => {
 
 const Founders = () => {
   const [contributors, setContributors] = useState([{}]);
+  const [mobileContributors, setMobileContributors] = useState([{}]);
+
   const getFounders = async () => {
-    await axios
-      .get('https://findmentor.network/activeMentorships.json')
-      .then((res) => {
-        setContributors(res.data.mentorships[0].contributors);
-      });
+    const response = await axios.get(
+      'https://findmentor.network/activeMentorships.json',
+    );
+    setContributors(response.data.mentorships[0].contributors);
+    setMobileContributors(response.data.mentorships[10].contributors); //burası düzenlenecek.
   };
 
   getFounders();
+
   let avatars = [];
   contributors.forEach((c) => {
     avatars.push(c.avatar);
   });
-
+  mobileContributors.forEach((c) => {
+    avatars.push(c.avatar);
+  });
   const renderItem = ({item}) => (
     <TouchableOpacity onPress={() => Linking.openURL(item.github_address)}>
       <Image
@@ -61,7 +66,16 @@ const Founders = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.username}
         numColumns={8}
-        style={{ margin: 5 }}
+        style={{margin: 5}}
+      />
+
+      <Text style={styles.boxHeader}>Mobile App Founders</Text>
+      <FlatList
+        data={mobileContributors}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.username}
+        numColumns={8}
+        style={{margin: 5}}
       />
     </View>
   );
