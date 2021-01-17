@@ -14,3 +14,6 @@ export * from './Question';
 export * from './EventIcon';
 export * from './Job';
 export * from './JobSeeker';
+export * from './SuitCase';
+export * from './PaperPlane';
+export * from './Clock';

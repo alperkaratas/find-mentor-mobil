@@ -422,7 +422,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">\
                     </head>\
                     <body>\
-                      <div style="border-radius: $border-radius: 5px;">
+                      <div>
                       ${twitterHtml}\
                     </body>\
                 </html>`,
@@ -533,6 +533,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   goalsView: {
+    alignSelf: 'flex-start',
     marginVertical: 7,
     marginBottom: 13,
   },
@@ -541,7 +542,7 @@ const styles = StyleSheet.create({
   },
   hireMe: {
     width: 110,
-    borderRadius: 5,
+    borderRadius: 3,
     padding: 5,
     marginBottom: 15,
   },
