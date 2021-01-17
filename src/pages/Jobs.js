@@ -9,13 +9,16 @@ import {
   FlatList,
   Dimensions,
   StyleSheet,
-  Linking
+  Linking,
+  ActivityIndicator
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BackButton } from '../components/SVGR-Components';
+import { SuitCase, Clock, PaperPlane } from '../components/SVGR-Components';
 
 const Jobs = (props) => {
 
+  const [ısLoading, setIsLoading] = useState(true)
   const [Jobs, setJobs] = useState([{
     date: 'defaultValue',
     company: 'defaultValue',
@@ -28,15 +31,17 @@ const Jobs = (props) => {
     remote: 'defaultValue',
     isRemoveAllowed: 'defaultValue'
   }])
+
   useEffect(() => {
     getJobs()
   }, [])
+
   const getJobs = async () => {
     const res = await axios.get('https://findmentor.network/jobs.json')
     setJobs(res.data.jobs)
+    setIsLoading(false)
   }
   const JobInfo = (item) => {
-    console.warn(item.company);
     return (
       <TouchableOpacity
         onPress={() => props.navigation.navigate('JobDetail', {
@@ -47,13 +52,24 @@ const Jobs = (props) => {
           <View>
             <Image source={{ uri: item.logo }} style={{ width: 100, height: 100, resizeMode: 'contain' }} />
           </View>
-          <View>
-            <Text style={{ color: '#000000e6', fontWeight: 'bold' }}>{item.company}</Text>
-            <Text style={{ color: '#00000080' }}>{item.position}</Text>
-          </View>
-          <View>
-            <Text>{item.date.slice(0, 10).replace('.', ' ').replace('.', ' ')}</Text>
-            <Text>Remote: {item.remote}</Text>
+          <View style={{ marginLeft: 10 }}>
+            <View>
+              <Text style={{ color: '#000000e6', fontWeight: 'bold', fontSize: 18 }}>{item.company}</Text>
+              <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
+                <SuitCase width={14} height={14} fill='#00000040' marginRight={5} top={3}/>
+                <Text style={{ color: '#00000080', fontSize: 16 }}>{item.position}</Text>
+              </View>
+            </View>
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
+                <Clock width={14} height={14} fill='#00000040' marginRight={5} top={3} />
+                <Text>{item.date.slice(0, 10).replace('.', ' ').replace('.', ' ')}</Text>
+              </View>
+              <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
+                <PaperPlane width={14} height={14} fill='#00000040' marginRight={5} top={3}/>
+                <Text>Remote: {item.remote}</Text>
+              </View>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -89,11 +105,18 @@ const Jobs = (props) => {
             </Text>
             </TouchableOpacity>
           </View>
-          <FlatList
-            data={Jobs}
-            keyExtractor={(item, index) => item.date}
-            renderItem={({ item }) => JobInfo(item)}
-          />
+          {ısLoading ? (
+            <View style={{ marginVertical: 10 }}>
+              <ActivityIndicator size="large" color="#32475b" />
+            </View>
+          ) : (
+              <FlatList
+                data={Jobs}
+                keyExtractor={(item, index) => item.date}
+                renderItem={({ item }) => JobInfo(item)}
+              />
+            )}
+
         </View>
       </ScrollView>
     </SafeAreaView >
@@ -134,7 +157,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     width: Dimensions.get('window').width / 1.05,
-    height: 100,
+    minHeight: 100,
     margin: 10,
     padding: 10,
     paddingTop: 5,
