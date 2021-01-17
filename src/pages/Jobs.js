@@ -50,24 +50,32 @@ const Jobs = (props) => {
       >
         <View style={styles.JobBox}>
           <View>
-            <Image source={{ uri: item.logo }} style={{ width: 100, height: 100, resizeMode: 'contain' }} />
+            <Image source={{ uri: item.logo }} style={styles.logo} />
           </View>
-          <View style={{ marginLeft: 10 }}>
+          <View style={styles.jobInfo}>
             <View>
-              <Text style={{ color: '#000000e6', fontWeight: 'bold', fontSize: 18 }}>{item.company}</Text>
-              <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
-                <SuitCase width={14} height={14} fill='#00000040' marginRight={5} top={3}/>
-                <Text style={{ color: '#00000080', fontSize: 16 }}>{item.position}</Text>
+              <Text style={{ color: '#000000e6', fontWeight: 'bold', fontSize: 18 }}>
+                {item.company}
+                </Text>
+              <View style={styles.iconAndText}>
+                <SuitCase width={14} height={14} fill='#00000040' marginRight={5} top={3} />
+                <Text style={{ color: '#00000080', fontSize: 16 }}>
+                  {item.position}
+                  </Text>
               </View>
             </View>
             <View style={{ display: 'flex', flexDirection: 'row' }}>
-              <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
+              <View style={styles.iconAndText}>
                 <Clock width={14} height={14} fill='#00000040' marginRight={5} top={3} />
-                <Text>{item.date.slice(0, 10).replace('.', ' ').replace('.', ' ')}</Text>
+                <Text>
+                  {item.date.slice(0, 10).replace('.', ' ').replace('.', ' ')}
+                  </Text>
               </View>
-              <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
-                <PaperPlane width={14} height={14} fill='#00000040' marginRight={5} top={3}/>
-                <Text>Remote: {item.remote}</Text>
+              <View style={styles.iconAndText}>
+                <PaperPlane width={14} height={14} fill='#00000040' marginRight={5} top={3} />
+                <Text>
+                  Remote: {item.remote}
+                  </Text>
               </View>
             </View>
           </View>
@@ -99,7 +107,10 @@ const Jobs = (props) => {
             <Text>
               You can list your job listing below for 30 days.
           </Text>
-            <TouchableOpacity onPress={() => Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLSehaOyJDsY_mKOPNYtwrgLv3ynbLUBDsIUFJqyTnNfW16ijPA/viewform')}>
+            <TouchableOpacity onPress={() =>
+                Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLSehaOyJDsY_mKOPNYtwrgLv3ynbLUBDsIUFJqyTnNfW16ijPA/viewform')
+              }
+            >
               <Text style={styles.link}>
                 Add your job listing
             </Text>
@@ -169,6 +180,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3,
     elevation: 5
+  },
+  iconAndText: {
+    display: 'flex',
+    flexDirection: 'row',
+    margin: 6
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain'
+  },
+  jobInfo: {
+    marginLeft: 10,
+    width: Dimensions.get('window').width / 1.6
   }
 });
 

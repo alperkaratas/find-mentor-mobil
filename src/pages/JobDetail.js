@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  FlatList,
   Dimensions,
   StyleSheet,
   ScrollView,
@@ -18,9 +17,9 @@ import { SuitCase, Clock, PaperPlane } from '../components/SVGR-Components';
 const JobDetail = ({ route, props, navigation }) => {
   const Job = route.params.job
 
-  const renderTags = (item) => {
-     
-    let array =Job.tags.map(t=>{
+  const renderTags = () => {
+
+    let array = Job.tags.map(t => {
       return (
         <Text style={{
           backgroundColor: '#f0f0f0',
@@ -39,52 +38,109 @@ const JobDetail = ({ route, props, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.main}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButtonView}>
-        <BackButton width={25} height={25} fill={'#17aa90'} />
-      </TouchableOpacity>
-      <ScrollView>
-        <View style={styles.jobBox}>
-          <Image source={{ uri: Job.logo }} style={{ width: Dimensions.get('window').width / 3, height: Dimensions.get('window').width / 3, resizeMode: 'contain' }} />
-          <Text style={{ color: '#000000e6', fontWeight: 'bold', fontSize: 24, margin: 6 }}>
-            {Job.company}
-          </Text>
-          <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
-            <SuitCase width={18} height={18} fill='#00000040' top={5} marginRight={5} />
-            <Text style={{ color: '#00000080', fontSize: 20 }}>
-              {Job.position}
+    <SafeAreaView style={{flex:1}}>
+      <View style={styles.main}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButtonView}>
+          <BackButton
+            width={25}
+            height={25}
+            fill={'#17aa90'}
+          />
+        </TouchableOpacity>
+        <ScrollView>
+          <View style={styles.jobBox}>
+            <Image
+              source={{
+                uri: Job.logo
+              }}
+              style={styles.logo}
+            />
+            <Text style={{
+              color: '#000000e6',
+              fontWeight: 'bold',
+              fontSize: 24,
+              margin: 6
+            }}>
+              {Job.company}
             </Text>
-          </View>
-          <Text style={{ textAlign: 'justify'}}>
-            {Job.description}
-          </Text>
-          <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', margin: 6}}>
-            {renderTags()}
-          </View>
-          <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
-            <PaperPlane width={18} height={18} fill='#000' top={5} marginRight={5} />
-            <Text style={{ color: '#212529', fontSize: 20, fontWeight: 'bold' }}>
-              Remote: <Text style={{ color: '#2e3237', fontWeight: 'normal', fontSize: 18 }}>{Job.remote}</Text>
+            <View style={styles.iconAndText}>
+              <SuitCase
+                width={18}
+                height={18}
+                fill='#00000040'
+                top={5}
+                marginRight={5}
+              />
+              <Text style={{
+                color: '#00000080',
+                fontSize: 20
+              }}>
+                {Job.position}
+              </Text>
+            </View>
+            <Text style={{ textAlign: 'justify' }}>
+              {Job.description}
             </Text>
-          </View>
-          <TouchableOpacity
-            style={styles.applyButton}
-            onPress={() => { Linking.openURL(Job.address) }}
-          >
-            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>
-              APPLY
+            <View style={styles.tags}>
+              {renderTags()}
+            </View>
+            <View style={styles.iconAndText}>
+              <PaperPlane
+                width={18}
+                height={18}
+                fill='#000'
+                top={5}
+                marginRight={5}
+              />
+              <Text style={{
+                color: '#212529',
+                fontSize: 20,
+                fontWeight: 'bold'
+              }}>
+                Remote: <Text style={{
+                  color: '#2e3237',
+                  fontWeight: 'normal',
+                  fontSize: 18
+                }}>
+                  {Job.remote}
+                </Text>
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.applyButton}
+              onPress={() => { Linking.openURL(Job.address) }}
+            >
+              <Text style={{
+                color: '#fff',
+                fontWeight: 'bold',
+                fontSize: 20
+              }}
+              >
+                APPLY
             </Text>
-          </TouchableOpacity>
-          <View style={{ display: 'flex', flexDirection: 'row', margin: 6 }}>
-            <Clock width={18} height={18} fill='#000' top={5} marginRight={5} />
-            <Text style={{ color: '#2e3237', fontWeight: 'normal', fontSize: 18 }}>
-              {Job.date.slice(0, 10).replace('.', ' ').replace('.', ' ')}
-            </Text>
+            </TouchableOpacity>
+            <View style={styles.iconAndText}>
+              <Clock
+                width={18}
+                height={18}
+                fill='#000'
+                top={5}
+                marginRight={5}
+              />
+              <Text style={{
+                color: '#2e3237',
+                fontWeight: 'normal',
+                fontSize: 18
+              }}
+              >
+                {Job.date.slice(0, 10).replace('.', ' ').replace('.', ' ')}
+              </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -99,8 +155,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-    flex: 1,
-    paddingBottom: 1
+    flex: 1
   },
   jobBox: {
     width: Dimensions.get('window').width / 1.05,
@@ -124,6 +179,23 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingTop: 5,
     borderRadius: 15,
+    margin: 6
+  },
+  iconAndText: {
+    display: 'flex',
+    flexDirection: 'row',
+    margin: 6
+  },
+  logo: {
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
+    resizeMode: 'contain'
+  },
+  tags: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     margin: 6
   }
 });
