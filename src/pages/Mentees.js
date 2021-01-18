@@ -55,7 +55,7 @@ const Mentees = (props) => {
 
       {loading ? (
         <View style={{marginVertical: 10}}>
-          <ActivityIndicator size="large" color="#32475b"/>
+          <ActivityIndicator size="large" color="#32475b" />
         </View>
       ) : (
         <View style={{flex: 1}}>

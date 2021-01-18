@@ -27,7 +27,9 @@ const ActiveMentorships = (props) => {
     setMentorships(response.data.mentorships);
   };
 
-  const renderItem = ({item}) => <RenderItem data={item} navigation={props.navigation} />;
+  const renderItem = ({item}) => (
+    <RenderItem data={item} navigation={props.navigation} />
+  );
 
   return (
     <SafeAreaView style={{flex: 1}}>

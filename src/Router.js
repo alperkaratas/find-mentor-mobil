@@ -14,7 +14,7 @@ import {
   Events,
   Jobs,
   JobSeekers,
-  JobDetail
+  JobDetail,
 } from './pages';
 import {
   HomeIcon,

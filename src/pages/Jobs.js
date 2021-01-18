@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image} from 'react-native';
 import {
   SafeAreaView,
   View,
@@ -10,81 +10,98 @@ import {
   Dimensions,
   StyleSheet,
   Linking,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { BackButton } from '../components/SVGR-Components';
-import { SuitCase, Clock, PaperPlane } from '../components/SVGR-Components';
+import {ScrollView} from 'react-native-gesture-handler';
+import {BackButton} from '../components/SVGR-Components';
+import {SuitCase, Clock, PaperPlane} from '../components/SVGR-Components';
 
 const Jobs = (props) => {
-
-  const [ısLoading, setIsLoading] = useState(true)
-  const [Jobs, setJobs] = useState([{
-    date: 'defaultValue',
-    company: 'defaultValue',
-    position: 'defaultValue',
-    address: 'defaultValue',
-    description: 'defaultValue',
-    location: 'defaultValue',
-    logo: 'defaultValue',
-    tags: 'defaultValue',
-    remote: 'defaultValue',
-    isRemoveAllowed: 'defaultValue'
-  }])
+  const [ısLoading, setIsLoading] = useState(true);
+  const [Jobs, setJobs] = useState([
+    {
+      date: 'defaultValue',
+      company: 'defaultValue',
+      position: 'defaultValue',
+      address: 'defaultValue',
+      description: 'defaultValue',
+      location: 'defaultValue',
+      logo: 'defaultValue',
+      tags: 'defaultValue',
+      remote: 'defaultValue',
+      isRemoveAllowed: 'defaultValue',
+    },
+  ]);
 
   useEffect(() => {
-    getJobs()
-  }, [])
+    getJobs();
+  }, []);
 
   const getJobs = async () => {
-    const res = await axios.get('https://findmentor.network/jobs.json')
-    setJobs(res.data.jobs)
-    setIsLoading(false)
-  }
+    const res = await axios.get('https://findmentor.network/jobs.json');
+    setJobs(res.data.jobs);
+    setIsLoading(false);
+  };
   const JobInfo = (item) => {
     return (
       <TouchableOpacity
-        onPress={() => props.navigation.navigate('JobDetail', {
-          job: item
-        })}
-      >
+        onPress={() =>
+          props.navigation.navigate('JobDetail', {
+            job: item,
+          })
+        }>
         <View style={styles.JobBox}>
           <View>
-            <Image source={{ uri: item.logo }} style={styles.logo} />
+            <Image source={{uri: item.logo}} style={styles.logo} />
           </View>
           <View style={styles.jobInfo}>
             <View>
-              <Text style={{ color: '#000000e6', fontWeight: 'bold', fontSize: 18 }}>
+              <Text
+                style={{color: '#000000e6', fontWeight: 'bold', fontSize: 18}}>
                 {item.company}
-                </Text>
+              </Text>
               <View style={styles.iconAndText}>
-                <SuitCase width={14} height={14} fill='#00000040' marginRight={5} top={3} />
-                <Text style={{ color: '#00000080', fontSize: 16 }}>
+                <SuitCase
+                  width={14}
+                  height={14}
+                  fill="#00000040"
+                  marginRight={5}
+                  top={3}
+                />
+                <Text style={{color: '#00000080', fontSize: 16}}>
                   {item.position}
-                  </Text>
+                </Text>
               </View>
             </View>
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
               <View style={styles.iconAndText}>
-                <Clock width={14} height={14} fill='#00000040' marginRight={5} top={3} />
+                <Clock
+                  width={14}
+                  height={14}
+                  fill="#00000040"
+                  marginRight={5}
+                  top={3}
+                />
                 <Text>
                   {item.date.slice(0, 10).replace('.', ' ').replace('.', ' ')}
-                  </Text>
+                </Text>
               </View>
               <View style={styles.iconAndText}>
-                <PaperPlane width={14} height={14} fill='#00000040' marginRight={5} top={3} />
-                <Text>
-                  Remote: {item.remote}
-                  </Text>
+                <PaperPlane
+                  width={14}
+                  height={14}
+                  fill="#00000040"
+                  marginRight={5}
+                  top={3}
+                />
+                <Text>Remote: {item.remote}</Text>
               </View>
             </View>
           </View>
         </View>
       </TouchableOpacity>
-    )
-  }
-
-
+    );
+  };
 
   return (
     <SafeAreaView>
@@ -96,41 +113,36 @@ const Jobs = (props) => {
       <ScrollView>
         <View>
           <View style={styles.box}>
-            <Text style={styles.boxHeader}>
-              Jobs
-          </Text>
+            <Text style={styles.boxHeader}>Jobs</Text>
+            <Text>This community, driven/developed by a fellow community.</Text>
             <Text>
-              This community, driven/developed by a fellow community.</Text>
-            <Text>
-              As you can see, this project is the mentorship project. Developed by mentees.
-          </Text>
-            <Text>
-              You can list your job listing below for 30 days.
-          </Text>
-            <TouchableOpacity onPress={() =>
-                Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLSehaOyJDsY_mKOPNYtwrgLv3ynbLUBDsIUFJqyTnNfW16ijPA/viewform')
-              }
-            >
-              <Text style={styles.link}>
-                Add your job listing
+              As you can see, this project is the mentorship project. Developed
+              by mentees.
             </Text>
+            <Text>You can list your job listing below for 30 days.</Text>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSehaOyJDsY_mKOPNYtwrgLv3ynbLUBDsIUFJqyTnNfW16ijPA/viewform',
+                )
+              }>
+              <Text style={styles.link}>Add your job listing</Text>
             </TouchableOpacity>
           </View>
           {ısLoading ? (
-            <View style={{ marginVertical: 10 }}>
+            <View style={{marginVertical: 10}}>
               <ActivityIndicator size="large" color="#32475b" />
             </View>
           ) : (
-              <FlatList
-                data={Jobs}
-                keyExtractor={(item, index) => item.date}
-                renderItem={({ item }) => JobInfo(item)}
-              />
-            )}
-
+            <FlatList
+              data={Jobs}
+              keyExtractor={(item, index) => item.date}
+              renderItem={({item}) => JobInfo(item)}
+            />
+          )}
         </View>
       </ScrollView>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 
@@ -150,19 +162,19 @@ const styles = StyleSheet.create({
     shadowColor: '#dcdcdc',
     shadowOpacity: 0.25,
     shadowRadius: 3,
-    elevation: 5
+    elevation: 5,
   },
   boxHeader: {
     marginBottom: 5,
     fontSize: 22,
     color: '#212529',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   link: {
     color: '#007bff',
     position: 'relative',
     top: 4,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   JobBox: {
     display: 'flex',
@@ -179,22 +191,22 @@ const styles = StyleSheet.create({
     shadowColor: '#dcdcdc',
     shadowOpacity: 0.25,
     shadowRadius: 3,
-    elevation: 5
+    elevation: 5,
   },
   iconAndText: {
     display: 'flex',
     flexDirection: 'row',
-    margin: 6
+    margin: 6,
   },
   logo: {
     width: 100,
     height: 100,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   jobInfo: {
     marginLeft: 10,
-    width: Dimensions.get('window').width / 1.6
-  }
+    width: Dimensions.get('window').width / 1.6,
+  },
 });
 
-export { Jobs };
+export {Jobs};
