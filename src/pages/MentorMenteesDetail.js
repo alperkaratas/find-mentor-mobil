@@ -47,6 +47,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
   const scrollRef = useRef();
 
   const getPersonInfo = async (slug) => {
+    setReadMe('');
     const response = await axios.get('https://findmentor.network/persons.json');
     response.data.forEach((p) => {
       if (p.slug === slug) {
@@ -85,6 +86,29 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
       : mentorColor;
   };
 
+  const githubReadme= ( readMe ) => {
+    return (
+      <WebView
+      style={{
+        width: Dimensions.get('window').width / 0.5,
+        minHeight: Dimensions.get('window').height / 2.5,
+      }}
+      source={{
+        html: `
+          <div 
+            style="
+              width: ${Dimensions.get('window').width / 0.93}px;
+              overflow-wrap: break-word;
+              text-align: justify;
+            "
+          >
+            ${readMe}
+          </div>`,
+      }}
+    />
+    )
+  }
+
   const Contributions = () => {
     const ContributerImages = (props) => {
       const renderItem = ({item}) => (
@@ -93,10 +117,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
             item.fmn_url == ''
               ? Linking.openURL(item.github_address)
               : getPersonInfo(item.fmn_url.replace('/peer/', '')) &&
-                scrollRef.current?.scrollTo({
-                  y: 0,
-                  animated: true,
-                })
+              setLoading(true)
           }>
           <Image
             style={{
@@ -347,24 +368,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                   marginVertical: 8,
                 }}
               />
-              <WebView
-                style={{
-                  width: Dimensions.get('window').width / 0.5,
-                  minHeight: Dimensions.get('window').height / 2.5,
-                }}
-                source={{
-                  html: `
-                    <div 
-                      style="
-                        width: ${Dimensions.get('window').width / 1}px;
-                        overflow-wrap: break-word;
-                        text-align: justify;
-                      "
-                    >
-                      ${readMe}
-                    </div>`,
-                }}
-              />
+             { githubReadme(readMe) }
             </ScrollView>
             <ScrollView
               style={
