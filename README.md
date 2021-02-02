@@ -21,7 +21,7 @@ The project's aim is to collect feedback from people.
 # install dependencies
 $ yarn install
 
-# serve with hot reload at localhost:3000
+# build
 $ yarn ios
 $ yarn android
 
