@@ -86,7 +86,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
       : mentorColor;
   };
 
-  const githubReadme= ( readMe ) => {
+  const getGithubReadme= ( readMe ) => {
     return (
       <WebView
       style={{
@@ -368,7 +368,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                   marginVertical: 8,
                 }}
               />
-             { githubReadme(readMe) }
+             { getGithubReadme(readMe) }
             </ScrollView>
             <ScrollView
               style={
