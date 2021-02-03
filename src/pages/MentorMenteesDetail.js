@@ -18,6 +18,8 @@ import {Avatar} from 'react-native-elements';
 import {BackButton} from '../components/SVGR-Components';
 import {Divider} from 'react-native-elements';
 import WebView from 'react-native-webview';
+import axios from 'axios';
+import marked from 'marked';
 
 import {
   Github,
@@ -26,7 +28,6 @@ import {
   ShareTwitter,
   Question,
 } from '../components/SVGR-Components';
-import axios from 'axios';
 
 const MentorMenteesDetail = ({route, navigation, props}) => {
   const [person, setPerson] = useState({});
@@ -34,6 +35,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
   const [isContributer, setIsContributer] = useState(true);
   const [twitterHtml, setTwitterHtml] = useState(''); // twitter timeline html
   const [loading, setLoading] = useState(true);
+  const [readMe, setReadMe] = useState('');
 
   useEffect(() => {
     getPersonInfo(route.params.slug);
@@ -45,6 +47,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
   const scrollRef = useRef();
 
   const getPersonInfo = async (slug) => {
+    setReadMe('');
     const response = await axios.get('https://findmentor.network/persons.json');
     response.data.forEach((p) => {
       if (p.slug === slug) {
@@ -53,6 +56,14 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
         p.contributions.length === 0
           ? setIsContributer(false)
           : setContributions(p.contributions);
+        let githubUsername = p.github.replace('https://github.com/', '');
+        axios
+          .get(
+            `https://raw.githubusercontent.com/${githubUsername}/${githubUsername}/master/README.md`,
+          )
+          .then((res) => {
+            setReadMe(marked(res.data));
+          });
       }
     });
   };
@@ -75,6 +86,29 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
       : mentorColor;
   };
 
+  const getGithubReadme= ( readMe ) => {
+    return (
+      <WebView
+      style={{
+        width: Dimensions.get('window').width / 0.5,
+        minHeight: Dimensions.get('window').height / 2.5,
+      }}
+      source={{
+        html: `
+          <div 
+            style="
+              width: ${Dimensions.get('window').width / 0.93}px;
+              overflow-wrap: break-word;
+              text-align: justify;
+            "
+          >
+            ${readMe}
+          </div>`,
+      }}
+    />
+    )
+  }
+
   const Contributions = () => {
     const ContributerImages = (props) => {
       const renderItem = ({item}) => (
@@ -83,10 +117,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
             item.fmn_url == ''
               ? Linking.openURL(item.github_address)
               : getPersonInfo(item.fmn_url.replace('/peer/', '')) &&
-                scrollRef.current?.scrollTo({
-                  y: 0,
-                  animated: true,
-                })
+              setLoading(true)
           }>
           <Image
             style={{
@@ -312,8 +343,9 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
               </View>
             </View>
             <ScrollView
+              zoomScale={1.2}
               style={
-                person.github !== ''
+                readMe !== ''
                   ? [styles.box, styles.githubView]
                   : {display: 'none'}
               }>
@@ -336,6 +368,7 @@ const MentorMenteesDetail = ({route, navigation, props}) => {
                   marginVertical: 8,
                 }}
               />
+             { getGithubReadme(readMe) }
             </ScrollView>
             <ScrollView
               style={
@@ -473,7 +506,7 @@ const styles = StyleSheet.create({
   },
   githubView: {
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 2.5,
+    minHeight: Dimensions.get('window').height / 2.5,
   },
   activeMshipsView: {
     width: Dimensions.get('window').width / 1.1,
